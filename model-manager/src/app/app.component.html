@@ -1,3 +1,14 @@
-<app-model-import></app-model-import>
+<mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #sidenav mode="side" class="sidenav">
+        <app-model-import></app-model-import>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <button mat-stroked-button (click)="sidenav.toggle()" type="button" class="sidenav-button"><i class="fa fa-bars"></i></button>    
+        <h1 id="title">Rest API Mocker</h1>
+        <section>
+
+        </section>
+    </mat-sidenav-content>
+</mat-sidenav-container>
 
 <!-- <router-outlet></router-outlet> -->
