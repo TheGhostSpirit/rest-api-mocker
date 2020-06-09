@@ -4,23 +4,23 @@ import createHttpError from 'http-errors';
 
 import { validateSchema, validateRouteParams, Repository, useRepository } from '../../utils';
 
-import { Product } from './model';
-import productService from './models.service';
-import productSchema from './models.schema';
+import { Model } from './model';
+import modelService from './models.service';
+import modelSchema from './models.schema';
 
 /**
  * Returns the repository associated with the product collection.
  * @returns the product repository.
  */
-const modelRepository = (database: Db): Repository<Product> => useRepository(database, 'product');
+const modelRepository = (database: Db): Repository<Model> => useRepository(database, 'models');
 
 /**
  * Retrieves the list of products from the database.
  * @param database the database in which to look for products.
  * @returns a list of products.
  */
-const list = async (database: Db): Promise<Product[]> => {
-  return productService.list(productRepository(database));
+const list = async (database: Db, request: Request): Promise<Model[]> => {
+  return modelService.list(modelRepository(database), (request.user as any).email);
 };
 
 /**
@@ -30,10 +30,10 @@ const list = async (database: Db): Promise<Product[]> => {
  * @returns one product matching the given id.
  * @throws a 404 http error if the id is invalid.
  */
-const findOne = async (database: Db, request: Request): Promise<Product> => {
+const findOne = async (database: Db, request: Request): Promise<Model> => {
   const [ id ] = validateRouteParams(request.params.id);
 
-  const product = await productService.findOne(productRepository(database), id);
+  const product = await modelService.findOne(modelRepository(database), id);
 
   if (!product) {
     throw createHttpError(404, 'Invalid product id');
@@ -49,8 +49,8 @@ const findOne = async (database: Db, request: Request): Promise<Product> => {
  * @returns an object containing the id of the newly inserted product.
  */
 const create = async (database: Db, request: Request): Promise<{ id: ObjectId }> => {
-  const product = validateSchema(productSchema.newSchema, request.body as Product);
-  return productService.create(productRepository(database), product);
+  const product = validateSchema(modelSchema, request.body as Model);
+  return modelService.create(modelRepository(database), product);
 };
 
 /**
@@ -61,8 +61,8 @@ const create = async (database: Db, request: Request): Promise<{ id: ObjectId }>
  */
 const update = async (database: Db, request: Request): Promise<number> => {
   const [ id ] = validateRouteParams(request.params.id);
-  const product = validateSchema(productSchema.updateSchema, request.body as Product);
-  return productService.update(productRepository(database), id, product);
+  const product = validateSchema(modelSchema, request.body as Model);
+  return modelService.update(modelRepository(database), id, product);
 };
 
 /**
@@ -73,7 +73,7 @@ const update = async (database: Db, request: Request): Promise<number> => {
  */
 const remove = async (database: Db, request: Request): Promise<number> => {
   const [ id ] = validateRouteParams(request.params.id);
-  return productService.remove(productRepository(database), id);
+  return modelService.remove(modelRepository(database), id);
 };
 
 export default { list, create, update, remove, findOne };

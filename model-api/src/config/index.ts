@@ -8,7 +8,6 @@ dotenv.config();
 export const CONFIG = {
   port: process.env.NODE_PORT,
   auth: {
-    adminGroupId: process.env.AZURE_ADMIN_GROUP_ID,
     tenantId: process.env.AZURE_TENANT,
     clientId: process.env.AZURE_CLIENT_ID,
     get identityMetadata(): string {
