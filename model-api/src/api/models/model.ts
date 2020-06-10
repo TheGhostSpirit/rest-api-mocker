@@ -27,6 +27,9 @@ export interface Model {
   }
 }
 
+/**
+ * Represents an object field (used internally bu models).
+ */
 export interface ObjectField {
   name: string;
   type: string;
