@@ -12,7 +12,6 @@ public class ExportModel {
 
         try{
             String jsonModel = map.writeValueAsString(api);
-
             System.out.println(jsonModel);
 
         }

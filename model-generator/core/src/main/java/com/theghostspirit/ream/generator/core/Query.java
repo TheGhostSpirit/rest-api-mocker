@@ -1,32 +1,21 @@
 package com.theghostspirit.ream.generator.core;
 
+import java.util.ArrayList;
+
 public class Query {
-    private String name;
-    private String type;
-    private Boolean required;
+    private ArrayList fieldList;
 
-    public String getName() {
-        return name;
+
+    public ArrayList getFieldList() {
+        return fieldList;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFieldList(ArrayList fieldList) {
+        this.fieldList = fieldList;
     }
 
-    public String getType() {
-        return type;
+    public void addField(String name, String type, Boolean required){
+        Field field = new Field(name,type,required);
+        fieldList.add(field);
     }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public Boolean getRequired() {
-        return required;
-    }
-
-    public void setRequired(Boolean required) {
-        this.required = required;
-    }
-
 }
