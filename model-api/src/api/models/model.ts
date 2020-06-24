@@ -1,10 +1,8 @@
-import { ObjectId } from 'mongodb';
-
 /**
  * Represents a REST API Model.
  */
 export interface Model {
-  _id?: ObjectId;
+  owner?: string;
   version: number;
   api: {
     name: string;
@@ -29,7 +27,10 @@ export interface Model {
   }
 }
 
-interface ObjectField {
+/**
+ * Represents an object field (used internally bu models).
+ */
+export interface ObjectField {
   name: string;
   type: string;
   required: boolean;

@@ -1,33 +1,46 @@
 import * as yup from 'yup';
 
-import { notEmptyObject } from '../../utils';
-
-import { Product } from './model';
+import { Model, ObjectField } from './model';
 
 /**
- * Validation Schema for new Product instances.
+ * Validation Schema for object fields.
  */
-const newSchema = yup.object().shape<Product>(
-  {
+const objectFieldSchema = yup.object().shape<ObjectField>({
+  name: yup.string().required(),
+  type: yup.string().required(),
+  required: yup.boolean()
+});
+
+/**
+ * Validation Schema for Model instances.
+ */
+const modelSchema = yup.object().shape<Model>({
+  version: yup.number().required(),
+  api: yup.object().shape({
     name: yup.string().required(),
-    price: yup.number().min(0).required(),
-    image: yup.string().url().required(),
     description: yup.string().required(),
-    calories: yup.number().min(0).required()
-  }
-);
+    contact: yup.object().shape({
+      name: yup.string().required(),
+      email: yup.string().email().required()
+    }),
+    license: yup.string().required(),
+    version: yup.number().required(),
+    routes: yup.array().of(
+      yup.object().shape({
+        path: yup.string().required(),
+        method: yup.string().required(),
+        query: yup.array().of(objectFieldSchema),
+        params: yup.array().of(objectFieldSchema),
+        body: yup.array().of(objectFieldSchema),
+        response: yup.array().of(
+          yup.object().shape({
+            status: yup.number().required(),
+            body: yup.array().of(objectFieldSchema)
+          })
+        )
+      })
+    )
+  })
+});
 
-/**
- * Validation Schema to update Product instances.
- */
-const updateSchema = yup.object().shape<Product>(
-  {
-    name: yup.string(),
-    price: yup.number().min(0),
-    image: yup.string().url(),
-    description: yup.string(),
-    calories: yup.number().min(0)
-  }
-).test(notEmptyObject);
-
-export default { newSchema, updateSchema };
+export default modelSchema;

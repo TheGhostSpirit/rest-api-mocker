@@ -2,103 +2,81 @@ import { ObjectId } from 'mongodb';
 
 import { Repository } from '../../utils';
 
-import { Product } from './model';
+import { Model } from './model';
 
 /**
- * Retrieves the list of products from the product collection.
- * @param repository the repository that interfaces the product collection.
- * @returns a list of products.
+ * Retrieves the list of models from the model collection.
+ * @param repository the repository that interfaces the model collection.
+ * @param user the user performing this action.
+ * @returns a list of models.
  */
 const list = async (
-  repository: Repository<Product>
-): Promise<Product[]> => {
-  return repository.findAll();
+  repository: Repository<Model>,
+  user: string
+): Promise<Model[]> => {
+  return repository.find({ owner: user }, { 'api.routes': 0, owner: 0 });
 };
 
 /**
- * Retrieves one product from the product collection.
- * @param repository the repository that interfaces the product collection.
- * @param id the id of the product to look for.
- * @returns the product that matches the given id or null if it is not found.
+ * Retrieves one model from the model collection.
+ * @param repository the repository that interfaces the model collection.
+ * @param id the id of the model to look for.
+ * @param user the user performing this action.
+ * @returns the model that matches the given id or null if it is not found.
  */
 const findOne = async (
-  repository: Repository<Product>,
-  id: ObjectId
-): Promise<Product | null> => {
-  return repository.findById(id);
+  repository: Repository<Model>,
+  id: ObjectId,
+  user: string
+): Promise<Model | null> => {
+  return repository.findOne({ _id: id, owner: user }, { owner: 0 });
 };
 
 /**
- * Retrieves one product's price from the product collection.
- * @param repository the repository that interfaces the product collection.
- * @param id the id of the product to look for.
- * @returns the price of the product or 0 if no product is found for the given id.
- */
-const findPrice = async (
-  repository: Repository<Product>,
-  id: ObjectId
-): Promise<number> => {
-  const product: Product = await repository.findById(id);
-
-  if (!product) {
-    return 0;
-  }
-
-  return product.price * (product.offer ?? 1);
-};
-
-/**
- * Checks products existence in the product collection.
- * @param repository the repository that interfaces the product collection.
- * @param id the ids of the products to look for.
- * @returns false if any of the products does not exist, true otherwise.
- */
-const exists = async (
-  repository: Repository<Product>,
-  ...ids: ObjectId[]
-): Promise<boolean> => {
-  return repository.exists(...ids);
-};
-
-/**
- * Inserts a new Product in the product collection.
- * @param repository the repository that interfaces the product collection.
- * @param product the product to insert.
- * @returns the ObjectId of the newly inserted product.
+ * Inserts a new Model in the model collection.
+ * @param repository the repository that interfaces the model collection.
+ * @param model the model to insert.
+ * @param user the user performing this action.
+ * @returns the ObjectId of the newly inserted model.
  */
 const create = async (
-  repository: Repository<Product>,
-  product: Product
+  repository: Repository<Model>,
+  model: Model,
+  user: string
 ): Promise<{ id: ObjectId }> => {
-  return repository.insertOne(product);
+  return repository.insertOne({ ...model, owner: user });
 };
 
 /**
- * Updates a product in the product collection.
- * @param repository the repository that interfaces the product collection.
- * @param id the id of the product to update.
- * @param product the new body of the product.
- * @returns the amount of documents matched by the given id in the product collection.
+ * Updates a model in the model collection.
+ * @param repository the repository that interfaces the model collection.
+ * @param id the id of the model to update.
+ * @param model the new body of the model.
+ * @param user the user performing this action.
+ * @returns the amount of documents matched by the given id in the model collection.
  */
 const update = async (
-  repository: Repository<Product>,
+  repository: Repository<Model>,
   id: ObjectId,
-  product: Partial<Product>
+  model: Partial<Model>,
+  user: string
 ): Promise<number> => {
-  return repository.updateOne(id, { $set: product });
+  return repository.updateOne({ _id: id, owner: user }, { $set: model });
 };
 
 /**
- * Removes a product from the product collection.
- * @param repository the repository that interfaces the product collection.
- * @param id the id of the product to remove.
+ * Removes a model from the model collection.
+ * @param repository the repository that interfaces the model collection.
+ * @param id the id of the model to remove.
+ * @param user the user performing this action.
  * @returns the amount of deleted documents.
  */
 const remove = async (
-  repository: Repository<Product>,
-  id: ObjectId
+  repository: Repository<Model>,
+  id: ObjectId,
+  user: string
 ): Promise<number> => {
-  return repository.deleteOne(id);
+  return repository.deleteOne({ _id: id, owner: user });
 };
 
-export default { list, findOne, create, update, remove, exists, findPrice };
+export default { list, findOne, create, update, remove };

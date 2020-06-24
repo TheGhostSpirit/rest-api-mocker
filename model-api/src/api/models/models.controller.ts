@@ -4,76 +4,76 @@ import createHttpError from 'http-errors';
 
 import { validateSchema, validateRouteParams, Repository, useRepository } from '../../utils';
 
-import { Product } from './model';
-import productService from './models.service';
-import productSchema from './models.schema';
+import { Model } from './model';
+import modelService from './models.service';
+import modelSchema from './models.schema';
 
 /**
- * Returns the repository associated with the product collection.
- * @returns the product repository.
+ * Returns the repository associated with the model collection.
+ * @returns the model repository.
  */
-const modelRepository = (database: Db): Repository<Product> => useRepository(database, 'product');
+const modelRepository = (database: Db): Repository<Model> => useRepository(database, 'models');
 
 /**
- * Retrieves the list of products from the database.
- * @param database the database in which to look for products.
- * @returns a list of products.
+ * Retrieves the list of models from the database.
+ * @param database the database in which to look for models.
+ * @returns a list of models.
  */
-const list = async (database: Db): Promise<Product[]> => {
-  return productService.list(productRepository(database));
+const list = async (database: Db, request: Request): Promise<Model[]> => {
+  return modelService.list(modelRepository(database), (request.user as any).email);
 };
 
 /**
- * Retrieves one product from the database.
- * @param database the database in which to find the product.
+ * Retrieves one model from the database.
+ * @param database the database in which to find the model.
  * @param request the Express request object.
- * @returns one product matching the given id.
+ * @returns one model matching the given id.
  * @throws a 404 http error if the id is invalid.
  */
-const findOne = async (database: Db, request: Request): Promise<Product> => {
+const findOne = async (database: Db, request: Request): Promise<Model> => {
   const [ id ] = validateRouteParams(request.params.id);
 
-  const product = await productService.findOne(productRepository(database), id);
+  const model = await modelService.findOne(modelRepository(database), id,(request.user as any).email);
 
-  if (!product) {
-    throw createHttpError(404, 'Invalid product id');
+  if (!model) {
+    throw createHttpError(404, 'Invalid model id');
   }
 
-  return product;
+  return model;
 };
 
 /**
- * Attempts to insert a product into the database.
- * @param database the database in which to insert the product.
+ * Attempts to insert a model into the database.
+ * @param database the database in which to insert the model.
  * @param request the Express request object.
- * @returns an object containing the id of the newly inserted product.
+ * @returns an object containing the id of the newly inserted model.
  */
 const create = async (database: Db, request: Request): Promise<{ id: ObjectId }> => {
-  const product = validateSchema(productSchema.newSchema, request.body as Product);
-  return productService.create(productRepository(database), product);
+  const model = validateSchema(modelSchema, request.body as Model);
+  return modelService.create(modelRepository(database), model, (request.user as any).email);
 };
 
 /**
- * Attempts to update a product in the database.
- * @param database the database in which to update the product.
+ * Attempts to update a model in the database.
+ * @param database the database in which to update the model.
  * @param request the Express request object.
- * @returns the number of matched products by the update query.
+ * @returns the number of matched models by the update query.
  */
 const update = async (database: Db, request: Request): Promise<number> => {
   const [ id ] = validateRouteParams(request.params.id);
-  const product = validateSchema(productSchema.updateSchema, request.body as Product);
-  return productService.update(productRepository(database), id, product);
+  const model = validateSchema(modelSchema, request.body as Model);
+  return modelService.update(modelRepository(database), id, model, (request.user as any).email);
 };
 
 /**
- * Attempts to remove a product from the database.
- * @param database the database in which to remove the product.
+ * Attempts to remove a model from the database.
+ * @param database the database in which to remove the model.
  * @param request the Express request object.
- * @returns the number of deleted products.
+ * @returns the number of deleted models.
  */
 const remove = async (database: Db, request: Request): Promise<number> => {
   const [ id ] = validateRouteParams(request.params.id);
-  return productService.remove(productRepository(database), id);
+  return modelService.remove(modelRepository(database), id, (request.user as any).email);
 };
 
 export default { list, create, update, remove, findOne };

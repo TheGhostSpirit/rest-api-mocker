@@ -41,10 +41,21 @@ export class Repository<T> {
   /**
    * Fetches the element of the passed id in the collection.
    * @param id the id of the element to look for.
+   * @param projection you may specifiy a projection to return only specific fields of the matched document.
    * @returns an element or null if it is not found.
    */
-  async findById(id: ObjectId): Promise<any> {
-    return this.collection.findOne({ _id: id });
+  async findById(id: ObjectId, projection?: any): Promise<any> {
+    return this.collection.findOne({ _id: id }, { projection });
+  }
+
+  /**
+   * Fetches the first element matching the given filter formatted with the specified projection.
+   * @param filter you may specify a filter to match only a specific element in the collection.
+   * @param projection you may specifiy a projection to return only specific fields of the matched document.
+   * @returns an element or null if is is not found.
+   */
+  async findOne(filter: any, projection: any): Promise<any> {
+    return this.collection.findOne(filter, { projection });
   }
 
   /**
@@ -58,21 +69,21 @@ export class Repository<T> {
 
   /**
    * Updates one element in the collection.
-   * @param id the id of the element to update.
+   * @param filter a filter to match one element in the collection.
    * @param update the update query to apply to the desired element.
    * @returns the number of document found for the given id in the collection.
    */
-  async updateOne(id: ObjectId, update: any): Promise<number> {
-    return this.collection.updateOne({ _id: id }, update).then(res => res.matchedCount);
+  async updateOne(filter: any, update: any): Promise<number> {
+    return this.collection.updateOne(filter, update).then(res => res.matchedCount);
   }
 
   /**
    * Deletes one element in the collection.
-   * @param id the id of the element to delete.
+   * @param filter a filter to match one element in the collection.
    * @returns the number of deleted elements.
    */
-  async deleteOne(id: ObjectId): Promise<number> {
-    return this.collection.deleteOne({ _id: id }).then(res => res.deletedCount ?? 0);
+  async deleteOne(filter: any): Promise<number> {
+    return this.collection.deleteOne(filter).then(res => res.deletedCount ?? 0);
   }
 
   /**
