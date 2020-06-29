@@ -1,16 +1,16 @@
 import dotenv from 'dotenv';
 
-dotenv.config();
+dotenv.config({ path: '../.env' });
 
 /**
  * Application configuration object.
  */
 export const CONFIG = {
-  port: process.env.NODE_PORT,
+  port: process.env.MODEL_MOCKER_PORT,
   database: {
-    port: process.env.MONGO_PORT,
-    host: process.env.MONGO_HOST,
-    dbName: process.env.MONGO_DBNAME,
+    port: process.env.MODEL_MOCKER_DATABASE_PORT,
+    host: process.env.MODEL_MOCKER_DATABASE_HOST,
+    dbName: process.env.MODEL_MOCKER_DATABASE_DBNAME,
     get url(): string {
       return `mongodb://${this.host}:${this.port}`;
     }

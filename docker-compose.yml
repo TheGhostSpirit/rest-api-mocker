@@ -1,19 +1,37 @@
 version: '3.6'
 services:
-  database:
+  model-database:
     container_name: model-database
     image: mongo:4.2.3
     ports:
-      - "${MONGO_PORT}:27017"
+      - "${MODEL_DATABASE_PORT}:27017"
     env_file:
       - .env
-  api:
+  model-mocker-database:
+    container_name: model-mocker-database
+    image: mongo:4.2.3
+    ports:
+      - "${MODEL_MOCKER_DATABASE_PORT}:27017"
+    env_file:
+      - .env
+  model-api:
     container_name: model-api
     image: node:13.12-alpine
     ports:
-      - "${NODE_PORT}:${NODE_PORT}"
+      - "${MODEL_API_PORT}:${MODEL_API_PORT}"
     volumes:
       - './model-api:/app'
+    env_file:
+      - .env
+    working_dir: /app
+    entrypoint: sh -c "npm i && npm start"
+  model-mocker:
+    container_name: model-mocker
+    image: node:13.12-alpine
+    ports:
+      - "${MODEL_MOCKER_PORT}:${MODEL_MOCKER_PORT}"
+    volumes:
+      - './model-mocker:/app'
     env_file:
       - .env
     working_dir: /app
