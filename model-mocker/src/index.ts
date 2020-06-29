@@ -1,15 +1,17 @@
 import express from 'express';
+import { Server } from 'http';
 import cors from 'cors';
 import fs from 'fs';
+
 
 import { logger } from './utils';
 import { CONFIG } from './config';
 import { handleError, notFound } from './middlewares';
 import routes from './api/routes';
 
-const getModel = async () => {
+const getModel = async (): Promise<Buffer> => {
   return new Promise((resolve, reject) => {
-    fs.readFile('/tmp/model.yml', (err, data) => {
+    fs.readFile('/tmp/model.json', (err, data) => {
       if (err) {
         logger.error(err);
         reject();
@@ -36,14 +38,16 @@ const getServer = () => express()
  */
 const main = async () => {
 
-  let model = await getModel();
-
-  let server = getServer();
+  let model: Buffer;
+  let server: Server;
 
   fs.watch('/tmp', {}, async (_, fileName) => {
-    if (fileName == 'model.yml') {
+    if (fileName == 'model.json') {
       model = await getModel();
-      server.close(() => server = getServer());
+      console.log(model.toString());
+      server 
+        ? server.close(() => server = getServer())
+        : server = getServer();
     }
   });
 

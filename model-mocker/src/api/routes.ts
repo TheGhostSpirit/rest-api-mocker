@@ -1,13 +1,9 @@
 import { buildRoutes, Path } from '../utils';
 
-import modelsRoutes from './models/models.routes';
-
 /**
  * The routes to mount on /api.
  */
-const paths: Path[] = [
-  { path: '/models', routes: modelsRoutes }
-];
+const paths: Path[] = [];
 
 const router = buildRoutes(paths);
 
