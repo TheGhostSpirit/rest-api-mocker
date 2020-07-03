@@ -3,17 +3,9 @@ services:
   model-database:
     container_name: model-database
     image: mongo:4.2.3
-    ports:
-      - "${MODEL_DATABASE_PORT}:27017"
-    env_file:
-      - .env
   model-mocker-database:
     container_name: model-mocker-database
     image: mongo:4.2.3
-    ports:
-      - "${MODEL_MOCKER_DATABASE_PORT}:27017"
-    env_file:
-      - .env
   model-api:
     container_name: model-api
     image: node:13.12-alpine
@@ -32,6 +24,7 @@ services:
       - "${MODEL_MOCKER_PORT}:${MODEL_MOCKER_PORT}"
     volumes:
       - './model-mocker:/app'
+      - "${MODEL_MOCKER_REPOSITORY_HOST_VOLUME_PATH}:${MODEL_MOCKER_REPOSITORY}"
     env_file:
       - .env
     working_dir: /app

@@ -13,7 +13,7 @@ const main = async () => {
   let model: Model;
   let server: Server;
 
-  fs.watch(CONFIG.model.path, {}, async (_, fileName) => {
+  fs.watch(CONFIG.model.repository, {}, async (_, fileName) => {
     if (fileName == CONFIG.model.name) {
       model = await  modelManager.getLatest(CONFIG.model.fullPath);
       const routes = routeFactory.modelToRoutes(model);
