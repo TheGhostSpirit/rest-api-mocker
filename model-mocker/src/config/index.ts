@@ -7,6 +7,13 @@ dotenv.config({ path: '../.env' });
  */
 export const CONFIG = {
   port: process.env.MODEL_MOCKER_PORT,
+  model: {
+    path: '/tmp',
+    name: 'model.json',
+    get fullPath(): string {
+      return `${this.path}/${this.name}`;
+    }
+  },
   database: {
     port: process.env.MODEL_MOCKER_DATABASE_PORT,
     host: process.env.MODEL_MOCKER_DATABASE_HOST,

@@ -1,6 +1,6 @@
 import { Request, NextFunction } from 'express';
 
-import { databaseConnection } from '../utils';
+import { databaseConnection } from '../../database';
 
 /**
  * Mongo Database connection middleware.

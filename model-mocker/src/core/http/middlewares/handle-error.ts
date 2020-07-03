@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { HttpError } from 'http-errors';
 
-import { logger } from '../utils';
+import { logger } from '../../../utils';
 
 /**
  * Http error handler middleware.
