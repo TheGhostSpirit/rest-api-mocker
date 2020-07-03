@@ -4,16 +4,31 @@ import path from 'path';
 import { logger } from '../utils';
 import { CONFIG } from '../config';
 
-import { Model } from './model';
+import { Model, ObjectField } from './model';
 import { Route, HttpMethod } from './route';
 import { connectDatabase } from './http/middlewares';
 
+type ModelRoute = Model['api']['routes'][0];
+type ModelResponse = ModelRoute['response'][0];
+
+const makeHandler = (route: ModelRoute) => {
+  const successResponse = route.response.find((r: ModelResponse) => r.status === 200);
+
+  if (!successResponse) {
+    return () => Promise.resolve({});
+  }
+
+  return () => Promise.resolve(
+    successResponse.body.reduce((obj: Object, f: ObjectField) => ({ ...obj, [f.name]: f.type }), {})
+  );
+};
+
 const modelToRoutes = (model: Model): Route[] => {
   return model.api.routes
-    .map((r: Model['api']['routes'][0]) => ({
+    .map((r: ModelRoute) => ({
       path: r.path,
       method: r.method as HttpMethod,
-      handler: () => Promise.resolve({ name: 'tototiti' })
+      handler: makeHandler(r)
     }));
 };
 
@@ -30,7 +45,7 @@ const buildRouter = (routes: Route[]): Router => {
   });
 
   return router;
-}
+};
 
 export default {
   modelToRoutes,
