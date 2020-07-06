@@ -1,18 +1,18 @@
 import faker from 'faker';
 
-const string = () => {
+const string = (): string => {
   return faker.lorem.word();
 };
 
-const number = (max?: number) => {
+const number = (max?: number): number => {
   return faker.random.number(max);
 };
 
-const date = () => {
+const date = (): Date => {
   return faker.date.past();
 };
 
-export default {
+export const random = {
   string,
   number,
   date
