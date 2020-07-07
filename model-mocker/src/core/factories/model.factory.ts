@@ -1,7 +1,7 @@
 import fs from 'fs';
 
-import { logger } from '../utils';
-import { Model } from './model';
+import { logger } from '../../utils';
+import { Model } from '../models';
 
 const fetch =  async (path: string): Promise<Buffer> => {
   return new Promise((resolve, reject) => {
@@ -19,13 +19,11 @@ const toModel = (buffer: Buffer): Model => {
   return JSON.parse(buffer.toString()) as Model;
 };
 
-const getLatest = async (path: string): Promise<Model> => {
+const build = async (path: string): Promise<Model> => {
   const buffer = await fetch(path);
   return toModel(buffer);
 };
 
-export default {
-  fetch,
-  toModel,
-  getLatest
+export const ModelFactory = {
+  build
 };

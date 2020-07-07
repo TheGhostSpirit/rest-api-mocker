@@ -3,10 +3,9 @@ import fs from 'fs';
 
 import { CONFIG } from './config';
 
-import modelManager from './core/model-manager';
-import routeFactory from './core/route-factory';
-import { Model } from './core/model';
-import { getServer } from './core/http';
+import { Http } from './core/http';
+import { Model } from './core/models';
+import { ModelFactory, RouterFactory } from './core/factories';
 
 const main = async () => {
 
@@ -15,11 +14,10 @@ const main = async () => {
 
   fs.watch(CONFIG.model.repository, {}, async (_, fileName) => {
     if (fileName == CONFIG.model.name) {
-      model = await  modelManager.getLatest(CONFIG.model.fullPath);
-      const routes = routeFactory.modelToRoutes(model);
+      model = await ModelFactory.build(CONFIG.model.fullPath);
       server
-        ? server.close(() => server = getServer(routeFactory.buildRouter(routes)))
-        : server = getServer(routeFactory.buildRouter(routes));
+        ? server.close(() => server = Http.getServer(RouterFactory.build(model)))
+        : server = Http.getServer(RouterFactory.build(model));
     }
   });
 

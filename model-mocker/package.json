@@ -25,6 +25,7 @@
     "express": "^4.17.1",
     "faker": "^4.1.0",
     "http-errors": "^1.7.3",
+    "model-share": "file:../model-share",
     "mongodb": "^3.5.7",
     "yup": "^0.28.5"
   },

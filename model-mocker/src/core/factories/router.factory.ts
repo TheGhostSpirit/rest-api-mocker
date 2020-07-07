@@ -1,26 +1,24 @@
 import { Router, Request, Response } from 'express';
 import path from 'path';
 
-import { logger } from '../utils';
-import { CONFIG } from '../config';
+import { logger } from '../../utils';
+import { CONFIG } from '../../config';
 
-import { Model } from './model';
-import { Route, HttpMethod } from './route';
-import { connectDatabase } from './http/middlewares';
-import handlerFactory from './handler-factory';
-
-type ModelRoute = Model['api']['routes'][0];
+import { Model, ModelRoute, Route, HttpMethod } from '../models';
+import { connectDatabase } from '../http/middlewares';
+import { HandlerFactory } from '.';
 
 const modelToRoutes = (model: Model): Route[] => {
   return model.api.routes
     .map((r: ModelRoute) => ({
       path: r.path,
       method: r.method as HttpMethod,
-      handler: handlerFactory.makeHandler(r)
+      handler: HandlerFactory.build(r)
     }));
 };
 
-const buildRouter = (routes: Route[]): Router => {
+const build = (model: Model): Router => {
+  const routes = modelToRoutes(model);
   const router = new (Router as any)();
 
   routes.forEach(r => {
@@ -35,7 +33,6 @@ const buildRouter = (routes: Route[]): Router => {
   return router;
 };
 
-export default {
-  modelToRoutes,
-  buildRouter
+export const RouterFactory = {
+  build
 };

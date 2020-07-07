@@ -5,7 +5,7 @@ import { CONFIG } from '../../config';
 import { logger } from '../../utils';
 import { handleError, notFound } from './middlewares';
 
-export const getServer = (routes: express.Router) => express()
+const getServer = (routes: express.Router) => express()
   .use(cors())
   .use(express.json())
   .use(express.urlencoded({ extended: false }))
@@ -14,3 +14,8 @@ export const getServer = (routes: express.Router) => express()
   .use(handleError)
   .listen(CONFIG.port, () => logger.info(`Server up and running on port ${CONFIG.port}!`))
   .on('error', error => (logger.error(error), process.exit(1)));
+
+
+export const Http = {
+  getServer
+};

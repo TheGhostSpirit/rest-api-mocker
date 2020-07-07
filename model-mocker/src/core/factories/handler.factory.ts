@@ -1,12 +1,9 @@
 import { Request } from 'express';
 
-import { Model, ObjectField } from './model';
-import { random } from '../utils';
-import { schemaFactory } from './schema-factory';
-import { validateSchema } from './validator';
+import { random } from '../../utils';
 
-type ModelRoute = Model['api']['routes'][0];
-type ModelResponse = ModelRoute['response'][0];
+import { ModelRoute, ModelResponse, ObjectField } from '../models';
+import { SchemaFactory } from '.';
 
 const randomOfType = (type: string) => {
   return new Map<string, Function>([
@@ -17,18 +14,14 @@ const randomOfType = (type: string) => {
     .get(type)?.();
 };
 
-// const getHandler = (route: ModelRoute) => {
-//   return route.path.split('/').reverse().find((r: string) => !r.startsWith(':'));
-// };
-
-const makeHandler = (route: ModelRoute) => {
+const build = (route: ModelRoute) => {
 
   const successResponse = route.response.find((r: ModelResponse) => r.status >= 200 && r.status <= 299);
 
   return async ({}, request: Request) => {
 
     if (route.body) {
-      console.log(validateSchema(schemaFactory.buildSchema(route.body), request.body));
+      SchemaFactory.build(route.body).validate(request.body);
     }
 
     if (!successResponse) {
@@ -42,6 +35,6 @@ const makeHandler = (route: ModelRoute) => {
   };
 };
 
-export default {
-  makeHandler
+export const HandlerFactory = {
+  build
 };
