@@ -4,9 +4,9 @@ import { ObjectField, Schema } from '../models';
 
 const getSchemaOfType = (type: string) => {
   return new Map<string, any>([
-    ['string', yup.string().required()],
-    ['number', yup.number().required()],
-    ['date', yup.date().required()]
+    ['string', yup.string()],
+    ['number', yup.number()],
+    ['date', yup.date()]
   ])
     .get(type);
 };
@@ -14,7 +14,9 @@ const getSchemaOfType = (type: string) => {
 const build = (fields: ObjectField[]): Schema<any> => {
   const schema = yup.object().shape<any>(
     fields
-      .map(field => ({ [field.name]: getSchemaOfType(field.type) }))
+      .map(field => [field, getSchemaOfType(field.type)])
+      .map(([field, schema]) => [field, field.required ? schema.required() : schema])
+      .map(([field, schema]) => ({ [field.name]: schema }))
       .reduce((pv, cv) => ({ ...pv, ...cv }), {})
   );
   return new Schema(schema);

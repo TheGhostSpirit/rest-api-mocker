@@ -24,6 +24,14 @@ const build = (route: ModelRoute) => {
       SchemaFactory.build(route.body).validate(request.body);
     }
 
+    if (route.params) {
+      SchemaFactory.build(route.params).validate(request.params);
+    }
+
+    if (route.query) {
+      SchemaFactory.build(route.query).validate(request.query);
+    }
+
     if (!successResponse) {
       return Promise.resolve({});
     }
