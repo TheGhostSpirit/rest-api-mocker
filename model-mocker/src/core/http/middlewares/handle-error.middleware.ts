@@ -12,6 +12,6 @@ import { logger } from '../../../utils';
 export const handleError = (err: HttpError, req: Request, res: Response, { }) => {
   const httpCode = err.status ?? 500;
   const message = err.message ?? err.title;
-  logger.error(`${req.originalUrl}: ${httpCode} - ${message}`);
+  logger.error(`${req.method} ${req.originalUrl}: ${httpCode} - ${message}`);
   res.status(httpCode).json({ message: err.message });
 };
