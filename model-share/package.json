@@ -1,0 +1,7 @@
+{
+  "name": "model-share",
+  "version": "1.0.0",
+  "description": "Shared type definitions for REST Api Mocker packages.",
+  "author": "TheGhostSpirit",
+  "license": "ISC"
+}
