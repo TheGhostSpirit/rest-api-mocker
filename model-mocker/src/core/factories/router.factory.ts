@@ -22,7 +22,7 @@ const build = (model: Model): Router => {
   const router = new (Router as any)();
 
   routes.forEach(r => {
-    logger.info(`${r.method.toUpperCase()} ${path.join(`http://127.0.0.1:${CONFIG.port}`, r.path)}`);
+    logger.info(`${r.method.toUpperCase()} http://${path.join(`127.0.0.1:${CONFIG.port}`, r.path)}`);
     router[r.method](
       path.join('/', r.path),
       connectDatabase(r.handler),

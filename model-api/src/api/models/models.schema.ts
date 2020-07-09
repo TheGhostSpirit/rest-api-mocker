@@ -1,14 +1,40 @@
 import * as yup from 'yup';
 
-import { Model, ObjectField } from './model';
+import { Model } from './model';
+import { ParamField, QueryField, BodyField, ResponseBodyField } from 'model-share/types/model';
 
-/**
- * Validation Schema for object fields.
- */
-const objectFieldSchema = yup.object().shape<ObjectField>({
+const paramFieldSchema: yup.ObjectSchema<ParamField> = yup.object().shape<ParamField>({
+  name: yup.string().required(),
+  type: yup.string().required()
+});
+
+const queryFieldSchema: yup.ObjectSchema<QueryField> = yup.object().shape<QueryField>({
   name: yup.string().required(),
   type: yup.string().required(),
-  required: yup.boolean()
+  required: yup.boolean(),
+});
+
+const bodyFieldSchema: yup.ObjectSchema<BodyField> = yup.object().shape<BodyField>({
+  name: yup.string().required(),
+  type: yup.string().required(),
+  required: yup.boolean(),
+  properties: yup.array().of(
+    yup.lazy(() => bodyFieldSchema.default(undefined))
+  ),
+  items: yup.array().of(
+    yup.lazy(() => bodyFieldSchema.default(undefined))
+  )
+});
+
+const responseBodyFieldSchema: yup.ObjectSchema<ResponseBodyField> = yup.object().shape<ResponseBodyField>({
+  name: yup.string().required(),
+  type: yup.string().required(),
+  properties: yup.array().of(
+    yup.lazy(() => responseBodyFieldSchema.default(undefined))
+  ),
+  items: yup.array().of(
+    yup.lazy(() => responseBodyFieldSchema.default(undefined))
+  )
 });
 
 /**
@@ -29,13 +55,13 @@ const modelSchema = yup.object().shape<Model>({
       yup.object().shape({
         path: yup.string().required(),
         method: yup.string().required(),
-        query: yup.array().of(objectFieldSchema),
-        params: yup.array().of(objectFieldSchema),
-        body: yup.array().of(objectFieldSchema),
+        query: yup.array().of(queryFieldSchema),
+        params: yup.array().of(paramFieldSchema),
+        body: yup.array().of(bodyFieldSchema),
         response: yup.array().of(
           yup.object().shape({
             status: yup.number().required(),
-            body: yup.array().of(objectFieldSchema)
+            body: yup.array().of(responseBodyFieldSchema)
           })
         )
       })

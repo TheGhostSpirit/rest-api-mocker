@@ -16,22 +16,50 @@ export interface Model {
     routes: {
       path: string;
       method: string;
-      query: ObjectField[];
-      params: ObjectField[];
-      body: ObjectField[];
+      query: QueryField[];
+      params: ParamField[];
+      body: BodyField[];
       response: {
         status: number;
-        body: ObjectField[];
+        body: ResponseBodyField[];
       }[];
     }[];
   }
 }
 
+export interface QueryField extends ObjectField {
+  name: string;
+  type: string;
+  required?: boolean;
+}
+
+export interface ParamField extends ObjectField {
+  name: string;
+  type: string;
+}
+
+export interface BodyField extends ObjectField {
+  name: string;
+  type: string;
+  required?: boolean;
+  properties?: BodyField[];
+  items?: BodyField[];
+}
+
+export interface ResponseBodyField extends ObjectField {
+  name: string;
+  type: string;
+  properties?: ResponseBodyField[];
+  items?: ResponseBodyField[];
+}
+
 /**
- * Represents an object field (used internally bu models).
+ * Represents an object field (used internally by models).
  */
 export interface ObjectField {
   name: string;
   type: string;
-  required: boolean;
+  required?: boolean;
+  properties?: ObjectField[];
+  items?: ObjectField[];
 }

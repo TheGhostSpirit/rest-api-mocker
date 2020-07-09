@@ -11,15 +11,25 @@ const getSchemaOfType = (type: string) => {
     .get(type);
 };
 
-const build = (fields: ObjectField[]): Schema<any> => {
-  const schema = yup.object().shape<any>(
+const transformFields = (fields: ObjectField[]) => {
+  const schema: yup.Schema<any> = yup.object().shape<any>(
     fields
-      .map(field => [field, getSchemaOfType(field.type)])
+      .map(field => [field,
+        field.properties
+          ? transformFields(field.properties)
+          : field.items
+            ? yup.array().of(transformFields(field.items))
+            : getSchemaOfType(field.type)
+      ])
       .map(([field, schema]) => [field, field.required ? schema.required() : schema])
       .map(([field, schema]) => ({ [field.name]: schema }))
       .reduce((pv, cv) => ({ ...pv, ...cv }), {})
   );
-  return new Schema(schema);
+  return schema;
+};
+
+const build = (fields: ObjectField[]) => {
+  return new Schema(transformFields(fields));
 };
 
 export const SchemaFactory = {

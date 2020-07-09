@@ -1,18 +1,8 @@
 import { Request } from 'express';
 
-import { random } from '../../utils';
-
-import { ModelRoute, ModelResponse, ObjectField } from '../models';
+import { ModelRoute, ModelResponse } from '../models';
 import { SchemaFactory } from '.';
-
-const randomOfType = (type: string) => {
-  return new Map<string, Function>([
-    ['string', random.string],
-    ['number', random.number],
-    ['date', random.date]
-  ])
-    .get(type)?.();
-};
+import { ResponseFactory } from './response.factory';
 
 const build = (route: ModelRoute) => {
 
@@ -37,8 +27,7 @@ const build = (route: ModelRoute) => {
     }
 
     return Promise.resolve(
-      successResponse.body
-        .reduce((obj: Object, f: ObjectField) => ({ ...obj, [f.name]: randomOfType(f.type) }), {})
+      ResponseFactory.build(successResponse.body)
     );
   };
 };
