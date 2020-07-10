@@ -15,6 +15,7 @@ const main = () => {
   express()
     .use(cors())
     .use(express.json())
+    .use(express.text({ type: 'text/yaml' }))
     .use(express.urlencoded({ extended: false }))
     .use(passport.initialize())
     .use('/api', routes)

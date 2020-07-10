@@ -28,6 +28,7 @@
     "mongodb": "^3.5.7",
     "passport": "^0.4.1",
     "passport-azure-ad": "^4.2.1",
+    "yaml": "^1.10.0",
     "yup": "^0.28.5"
   },
   "devDependencies": {
