@@ -10,18 +10,20 @@ const randomOfType = (type: string) => {
     .get(type)?.();
 };
 
+const getFieldValue = (field: ObjectField) => {
+  const map = new Map<string, any>([
+    ['items', [build(field.items ?? []), build(field.items ?? [])]],
+    ['properties', build(field.properties ?? [])],
+    ['value', field.value]
+  ]);
+
+  return [ ...map.entries() ].find(([k]) => k in field)?.[1] ?? randomOfType(field.type);
+};
+
 const build = (fields: ObjectField[]): any => {
   return fields
     .reduce(
-      (obj: Object, f: ObjectField) => {
-        const randomValue = !f.items
-          ? f.properties
-            ? build(f.properties)
-            : randomOfType(f.type)
-          : [build(f.items), build(f.items)];
-        return { ...obj, [f.name]: randomValue };
-      },
-      {}
+      (obj: Object, f: ObjectField) => ({ ...obj, [f.name]: getFieldValue(f) }), {}
     );
 };
 

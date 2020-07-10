@@ -49,6 +49,7 @@ export interface BodyField extends ObjectField {
 export interface ResponseBodyField extends ObjectField {
   name: string;
   type: string;
+  value?: any;
   properties?: ResponseBodyField[];
   items?: ResponseBodyField[];
 }
@@ -59,6 +60,7 @@ export interface ResponseBodyField extends ObjectField {
 export interface ObjectField {
   name: string;
   type: string;
+  value?: any;
   required?: boolean;
   properties?: ObjectField[];
   items?: ObjectField[];

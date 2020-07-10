@@ -29,6 +29,7 @@ const bodyFieldSchema: yup.ObjectSchema<BodyField> = yup.object().shape<BodyFiel
 const responseBodyFieldSchema: yup.ObjectSchema<ResponseBodyField> = yup.object().shape<ResponseBodyField>({
   name: yup.string().required(),
   type: yup.string().required(),
+  value: yup.mixed(),
   properties: yup.array().of(
     yup.lazy(() => responseBodyFieldSchema.default(undefined))
   ),
