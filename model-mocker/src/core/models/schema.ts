@@ -1,5 +1,4 @@
 import * as yup from 'yup';
-import createHttpError from 'http-errors';
 
 export class Schema<T> {
 
@@ -10,11 +9,7 @@ export class Schema<T> {
   }
 
   validate(instance: T): T {
-    try {
-      return this.schema.validateSync(instance, { stripUnknown: true });
-    } catch (error) {
-      throw createHttpError(422, error.message);
-    }
+    return this.schema.validateSync(instance, { stripUnknown: true });
   }
 
 }

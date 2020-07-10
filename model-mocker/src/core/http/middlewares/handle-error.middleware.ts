@@ -13,5 +13,5 @@ export const handleError = (err: HttpError, req: Request, res: Response, { }) =>
   const httpCode = err.status ?? 500;
   const message = err.message ?? err.title;
   logger.error(`${req.method} ${req.originalUrl}: ${httpCode} - ${message}`);
-  res.status(httpCode).json({ message: err.message });
+  res.status(httpCode).json(err);
 };
