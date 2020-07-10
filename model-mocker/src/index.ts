@@ -1,5 +1,5 @@
 import { Server } from 'http';
-import fs from 'fs';
+import chokidar from 'chokidar';
 
 import { CONFIG } from './config';
 
@@ -12,8 +12,8 @@ const main = async () => {
   let model: Model;
   let server: Server;
 
-  fs.watch(CONFIG.model.repository, {}, async (_, fileName) => {
-    if (fileName == CONFIG.model.name) {
+  chokidar.watch(CONFIG.model.repository).on('all', async ({}, path) => {
+    if (path == CONFIG.model.fullPath) {
       model = await ModelFactory.build(CONFIG.model.fullPath);
       server
         ? server.close(() => server = Http.getServer(RouterFactory.build(model)))
