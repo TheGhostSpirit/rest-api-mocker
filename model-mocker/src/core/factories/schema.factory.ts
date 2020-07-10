@@ -11,16 +11,19 @@ const getSchemaOfType = (type: string) => {
     .get(type);
 };
 
+const getFieldValue = (field: ObjectField) => {
+  const map = new Map<string, any>([
+    ['items', yup.array().of(transformFields(field.items ?? []))],
+    ['properties', transformFields(field.properties ?? [])]
+  ]);
+
+  return [ ...map.entries() ].find(([k]) => k in field)?.[1] ?? getSchemaOfType(field.type);
+};
+
 const transformFields = (fields: ObjectField[]) => {
   const schema: yup.Schema<any> = yup.object().shape<any>(
     fields
-      .map(field => [field,
-        field.properties
-          ? transformFields(field.properties)
-          : field.items
-            ? yup.array().of(transformFields(field.items))
-            : getSchemaOfType(field.type)
-      ])
+      .map(field => [field, getFieldValue(field)])
       .map(([field, schema]) => [field, field.required ? schema.required() : schema])
       .map(([field, schema]) => ({ [field.name]: schema }))
       .reduce((pv, cv) => ({ ...pv, ...cv }), {})
