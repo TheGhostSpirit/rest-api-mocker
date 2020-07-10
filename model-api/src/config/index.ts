@@ -7,6 +7,13 @@ dotenv.config({ path: '../.env'});
  */
 export const CONFIG = {
   port: process.env.MODEL_API_PORT,
+  model: {
+    repository: process.env.MODEL_API_REPOSITORY ?? '',
+    name: process.env.MODEL_MOCKER_DEFAULT_MODEL,
+    get fullPath(): string {
+      return `${this.repository}/${this.name}`;
+    }
+  },
   auth: {
     tenantId: process.env.AZURE_TENANT,
     clientId: process.env.AZURE_CLIENT_ID,

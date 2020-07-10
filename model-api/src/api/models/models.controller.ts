@@ -76,4 +76,16 @@ const remove = async (database: Db, request: Request): Promise<number> => {
   return modelService.remove(modelRepository(database), id, (request.user as any).email);
 };
 
-export default { list, create, update, remove, findOne };
+const deploy = async (database: Db, request: Request): Promise<object> => {
+  const [ id ] = validateRouteParams(request.params.id);
+
+  const res = await modelService.deploy(modelRepository(database), id, (request.user as any).email);
+
+  if (!res) {
+    throw createHttpError(404, 'Invalid model id');
+  }
+
+  return { status: true };
+};
+
+export default { list, create, update, remove, findOne, deploy };

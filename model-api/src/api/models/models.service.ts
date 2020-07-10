@@ -1,8 +1,10 @@
 import { ObjectId } from 'mongodb';
+import fs from 'fs';
 
 import { Repository } from '../../utils';
 
 import { Model } from './model';
+import { CONFIG } from '../../config';
 
 /**
  * Retrieves the list of models from the model collection.
@@ -79,4 +81,22 @@ const remove = async (
   return repository.deleteOne({ _id: id, owner: user });
 };
 
-export default { list, findOne, create, update, remove };
+const deploy = async(
+  repository: Repository<Model>,
+  id: ObjectId,
+  user: string
+): Promise<boolean> => {
+  const model = await findOne(repository, id, user);
+
+  if (!model) {
+    return false;
+  }
+
+  await new Promise(resolve => {
+    fs.writeFile(CONFIG.model.fullPath, JSON.stringify(model), {}, () => resolve());
+  });
+
+  return true;
+};
+
+export default { list, findOne, create, update, remove, deploy };

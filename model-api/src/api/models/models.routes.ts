@@ -36,7 +36,12 @@ const routes: Route[] = [
     options: {
       update: true
     }
-  }
+  },
+  {
+    method: 'post',
+    path: '/:id/deploy',
+    handler: modelsController.deploy,
+  },
 ];
 
 export default routes;

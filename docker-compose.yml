@@ -10,10 +10,11 @@ services:
     container_name: model-api
     image: node:13.12-alpine
     ports:
-      - "${MODEL_API_PORT}:${MODEL_API_PORT}"
+      - '${MODEL_API_PORT}:${MODEL_API_PORT}'
     volumes:
       - './model-share:/model-share'
       - './model-api:/app'
+      - 'model-repository:${MODEL_API_REPOSITORY}'
     env_file:
       - .env
     working_dir: /app
@@ -22,12 +23,14 @@ services:
     container_name: model-mocker
     image: node:13.12-alpine
     ports:
-      - "${MODEL_MOCKER_PORT}:${MODEL_MOCKER_PORT}"
+      - '${MODEL_MOCKER_PORT}:${MODEL_MOCKER_PORT}'
     volumes:
       - './model-share:/model-share'
       - './model-mocker:/app'
-      - "${MODEL_MOCKER_REPOSITORY_HOST_VOLUME_PATH}:${MODEL_MOCKER_REPOSITORY}"
+      - 'model-repository:${MODEL_MOCKER_REPOSITORY}'
     env_file:
       - .env
     working_dir: /app
     entrypoint: sh -c "npm i && npm start"
+volumes:
+  model-repository:
