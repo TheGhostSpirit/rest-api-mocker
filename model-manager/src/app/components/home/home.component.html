@@ -1,0 +1,11 @@
+<div class="app-home">
+  <h1>Model Manager</h1>
+  <div *ngIf="!auth.isLoggedIn">
+    <p>Log in to manage your models!</p>
+    <button mat-stroked-button (click)="auth.login()">Sign in</button>
+  </div>
+  <div *ngIf="auth.isLoggedIn">
+    <p>Import, edit and deploy your API Models!</p>
+    <button mat-stroked-button routerLink="/models">My Models</button>
+  </div>
+</div>

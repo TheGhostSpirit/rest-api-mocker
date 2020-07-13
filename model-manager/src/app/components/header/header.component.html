@@ -1,0 +1,26 @@
+<mat-toolbar color="primary" class="app-header mat-elevation-z6">
+  <h1>Model Manager</h1>
+  <div *ngIf="auth.isLoggedIn">
+    <button mat-button routerLink="/models">
+      <h2>My Models</h2>
+    </button>
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>account_circle</mat-icon>
+      <mat-menu #menu xPosition="before">
+        <button mat-menu-item disabled>
+          <span>{{ auth.name }}</span>
+        </button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item (click)="auth.logout()">
+          <mat-icon>logout</mat-icon>
+          <span>Sign out</span>
+        </button>
+      </mat-menu>
+    </button>
+  </div>
+  <button mat-button (click)="auth.login()" *ngIf="!auth.isLoggedIn">Sign in</button>
+</mat-toolbar>
+
+<mat-toolbar color="primary">
+  <h1>Toolbar Placeholder</h1>
+</mat-toolbar>

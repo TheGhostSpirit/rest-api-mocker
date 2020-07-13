@@ -1,33 +1,27 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
-// import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { ReactiveFormsModule } from '@angular/forms';
-import { ModelImportComponent } from './model-import/model-import.component';
+import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatButtonModule } from '@angular/material/button';
-import { ModelListComponent } from './model-list/model-list.component';
-import { MatListModule } from '@angular/material/list';
-import { MatDividerModule } from '@angular/material/divider';
 
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './components/app/app.component';
+import { CoreModule } from './core/core.module';
+import { SharedModule } from './shared/shared.module';
+
+import { HeaderComponent } from './components/header/header.component';
+import { HomeComponent } from './components/home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ModelImportComponent,
-    ModelListComponent
+    HeaderComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
-    ReactiveFormsModule,
     BrowserAnimationsModule,
-    MatSidenavModule,
-    MatButtonModule,
-    MatListModule,
-    MatDividerModule
-    // AppRoutingModule
+    SharedModule,
+    CoreModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
