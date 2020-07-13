@@ -10,6 +10,6 @@ public class Main {
         apiInstance.setName("Test");
         apiInstance.setDescription("Petite description");
         ExportModel export = new ExportModel();
-        export.getJsonModel(apiInstance);
+        //export.getJsonModel(apiInstance);
     }
 }

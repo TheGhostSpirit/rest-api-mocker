@@ -1,11 +1,14 @@
 package com.theghostspirit.ream.generator.core;
 
+import java.util.ArrayList;
+
 public class Route {
 
     private String path;
     private String method;
+    private String description;
     private Query query;
-    private Response response;
+    private ArrayList<Response> responses;
 
     public String getPath() {
         return path;
@@ -17,6 +20,14 @@ public class Route {
 
     public String getMethod() {
         return method;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public void setMethod(String method) {
@@ -31,11 +42,15 @@ public class Route {
         this.query = query;
     }
 
-    public Response getResponse() {
-        return response;
+    public ArrayList<Response> getResponses() {
+        return responses;
     }
 
-    public void setResponse(Response response) {
-        this.response = response;
+    public void setResponses(ArrayList<Response> responses) {
+        this.responses = responses;
+    }
+
+    public void addResponse(Response response){
+        responses.add(response);
     }
 }

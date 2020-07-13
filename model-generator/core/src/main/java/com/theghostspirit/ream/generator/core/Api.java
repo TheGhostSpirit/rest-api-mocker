@@ -57,4 +57,12 @@ public class Api {
     public void setRoutes(ArrayList<Route> routes) {
         this.routes = routes;
     }
+
+    public String toString(){
+        return "Api description :  " + getDescription();
+    }
+
+    public void addRoute(Route route){
+        this.routes.add(route);
+    }
 }
