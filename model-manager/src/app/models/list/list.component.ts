@@ -19,11 +19,30 @@ export class ModelListComponent implements OnInit {
   ];
 
   models: Model[];
+  deployed = null;
 
   constructor(private service: ModelsService) {}
 
   ngOnInit() {
+    this.refresh();
+  }
+
+  refresh() {
     this.service.findAll().subscribe(res => this.models = res);
+  }
+
+  deploy(model: Model) {
+    this.deployed = model;
+    return this.service.deploy(model._id).subscribe();
+  }
+
+  edit(model: Model) {
+
+  }
+
+  delete(model: Model) {
+    return this.service.delete(model._id)
+      .subscribe(() => this.refresh());
   }
 
 }

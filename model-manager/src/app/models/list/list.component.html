@@ -1,4 +1,12 @@
-<h2 id="list-title">My API Models</h2>
+<div class="model-list-header">
+  <h2 id="list-title">My API Models</h2>
+  <button mat-flat-button color="primary" (click)="refresh()">
+    <span>Refresh </span>
+    <mat-icon>
+      refresh
+    </mat-icon>
+  </button>
+</div>
 <div class="model-list">
   <table mat-table [dataSource]="models">
     <ng-container matColumnDef="name">
@@ -24,13 +32,13 @@
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>Actions</th>
       <td mat-cell *matCellDef="let element">
-        <button mat-icon-button>
+        <button mat-icon-button (click)="deploy(element)" *ngIf="element !== deployed">
           <mat-icon>publish</mat-icon>
         </button>
         <button mat-icon-button color="primary">
           <mat-icon>edit</mat-icon>
         </button>
-        <button mat-icon-button color="warn">
+        <button mat-icon-button color="warn" (click)="delete(element)">
           <mat-icon>delete_forever</mat-icon>
         </button>
       </td>

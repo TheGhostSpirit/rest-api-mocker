@@ -2,6 +2,7 @@
  * Represents a REST API Model.
  */
 export interface Model {
+  _id?: string;
   owner?: string;
   version: number;
   api: {
