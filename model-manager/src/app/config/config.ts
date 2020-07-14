@@ -1,4 +1,7 @@
 export default {
+  api: {
+    url: 'http://localhost:3000/api'
+  },
   auth: {
     tenantId: 'eae410ed-7a7e-451a-b931-636bbc191a74',
     clientId: '7f678163-f056-41c8-ba95-5a7a42625beb',

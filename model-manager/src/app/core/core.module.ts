@@ -6,6 +6,7 @@ import { OAuthModule } from 'angular-oauth2-oidc';
 import { AuthService } from './services/auth/auth.service';
 import { ModelsService } from './services/models/models.service';
 import { AuthorizationInterceptor } from './interceptors/authorization/authorization.interceptor';
+import { BaseUrlInterceptor } from './interceptors/base-url/base-url.interceptor';
 
 @NgModule({
   declarations: [],
@@ -22,7 +23,8 @@ import { AuthorizationInterceptor } from './interceptors/authorization/authoriza
       multi: true
     },
     ModelsService,
-    { provide: HTTP_INTERCEPTORS, useClass: AuthorizationInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: AuthorizationInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: BaseUrlInterceptor, multi: true }
   ]
 })
 export class CoreModule { }
