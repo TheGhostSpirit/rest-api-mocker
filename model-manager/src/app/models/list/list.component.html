@@ -1,20 +1,41 @@
 <h2 id="list-title">My API Models</h2>
 <div class="model-list">
-  <table mat-table [dataSource]="dataSource">
-    <ng-container matColumnDef="position">
-      <th mat-header-cell *matHeaderCellDef>#</th>
-      <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
-    </ng-container>
+  <table mat-table [dataSource]="models">
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef>Name</th>
-      <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.api.name }}</td>
     </ng-container>
+
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef>Description</th>
+      <td mat-cell *matCellDef="let element">{{ element.api.description }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="version">
+      <th mat-header-cell *matHeaderCellDef>Version</th>
+      <td mat-cell *matCellDef="let element">{{ element.api.version }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="license">
+      <th mat-header-cell *matHeaderCellDef>License</th>
+      <td mat-cell *matCellDef="let element">{{ element.api.license }}</td>
+    </ng-container>
+
     <ng-container matColumnDef="actions">
-    <th mat-header-cell *matHeaderCellDef>Actions</th>
-    <td mat-cell *matCellDef="let element">
-      <button mat-button>Action</button>
-    </td>
-  </ng-container>
+      <th mat-header-cell *matHeaderCellDef>Actions</th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button>
+          <mat-icon>publish</mat-icon>
+        </button>
+        <button mat-icon-button color="primary">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn">
+          <mat-icon>delete_forever</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Model } from 'model-share/types/model';
 
 import { ModelsService } from '../../core/services/models/models.service';
 
@@ -10,21 +11,19 @@ import { ModelsService } from '../../core/services/models/models.service';
 export class ModelListComponent implements OnInit {
 
   displayedColumns = [
-    'position',
     'name',
+    'description',
+    'version',
+    'license',
     'actions'
   ];
 
-  dataSource = [
-    { name: 'toto' },
-    { name: 'titi' },
-    { name: 'tata' }
-  ];
+  models: Model[];
 
   constructor(private service: ModelsService) {}
 
   ngOnInit() {
-    this.service.getAll().subscribe(res => console.log(res));
+    this.service.findAll().subscribe(res => this.models = res);
   }
 
 }
