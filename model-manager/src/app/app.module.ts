@@ -3,10 +3,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './components/app/app.component';
-import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
+import { CoreModule } from './core/core.module';
 
+import { AppComponent } from './components/app/app.component';
 import { HeaderComponent } from './components/header/header.component';
 import { HomeComponent } from './components/home/home.component';
 
@@ -20,10 +20,9 @@ import { HomeComponent } from './components/home/home.component';
     BrowserModule,
     BrowserAnimationsModule,
     SharedModule,
-    CoreModule,
-    AppRoutingModule
+    AppRoutingModule,
+    CoreModule
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

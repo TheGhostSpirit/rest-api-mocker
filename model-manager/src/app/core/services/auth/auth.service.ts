@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import { OAuthService, AuthConfig } from 'angular-oauth2-oidc';
+import { OAuthService } from 'angular-oauth2-oidc';
 
 import CONFIG from '../../../config/config';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class AuthService {
 
-  constructor(private oauthService: OAuthService) {
+  constructor(private oauthService: OAuthService) { }
+
+  async start() {
     this.oauthService.configure({
       issuer: CONFIG.auth.issuer,
       redirectUri: window.location.origin,
@@ -18,7 +18,7 @@ export class AuthService {
       skipIssuerCheck: true,
       strictDiscoveryDocumentValidation: false
     });
-    this.oauthService.loadDiscoveryDocumentAndTryLogin();
+    return this.oauthService.loadDiscoveryDocumentAndTryLogin();
   }
 
   login(): void {
@@ -27,6 +27,12 @@ export class AuthService {
 
   logout(): void {
     this.oauthService.logOut();
+  }
+
+  get token(): string | null {
+    return this.oauthService.hasValidAccessToken()
+      ? this.oauthService.getAccessToken()
+      : null;
   }
 
   get name(): string {

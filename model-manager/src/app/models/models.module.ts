@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from '../shared/shared.module';
 import { ModelsRoutingModule } from './models-routing.module';
 
-import { ModelListComponent } from './components/list/list.component';
+import { ModelListComponent } from './list/list.component';
 
 @NgModule({
   declarations: [
