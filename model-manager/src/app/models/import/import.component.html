@@ -1,0 +1,10 @@
+<div class="model-import">
+  <h1>Import an API Model</h1>
+  <button mat-stroked-button (click)="triggerSelectFile()">Choose File</button>
+  <input type="file" #input hidden accept=".yaml,.yml" (change)="fileWasSelected($event)">
+  <span *ngIf="file">{{ file?.name }}</span>
+  <div>
+    <button mat-flat-button color="primary" *ngIf="file" (click)="import()">Import</button>
+    <button mat-flat-button color="warn" (click)="close()">Cancel</button>
+  </div>
+</div>

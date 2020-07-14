@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Model } from 'model-share/types/model';
 
 import { ModelsService } from '../../core/services/models/models.service';
+import { ModelImportComponent } from '../import/import.component';
 
 @Component({
   selector: 'app-model-list',
@@ -21,7 +23,7 @@ export class ModelListComponent implements OnInit {
   models: Model[];
   deployed = null;
 
-  constructor(private service: ModelsService) {}
+  constructor(private service: ModelsService, private dialog: MatDialog) {}
 
   ngOnInit() {
     this.refresh();
@@ -38,6 +40,17 @@ export class ModelListComponent implements OnInit {
 
   edit(model: Model) {
 
+  }
+
+  import() {
+    this.dialog.open(ModelImportComponent)
+      .afterClosed()
+      .subscribe((file?: File) => {
+        if (file) {
+          this.service.import(file)
+            .subscribe(() => this.refresh());
+        }
+      });
   }
 
   delete(model: Model) {

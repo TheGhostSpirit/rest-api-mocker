@@ -5,10 +5,12 @@ import { SharedModule } from '../shared/shared.module';
 import { ModelsRoutingModule } from './models-routing.module';
 
 import { ModelListComponent } from './list/list.component';
+import { ModelImportComponent } from './import/import.component';
 
 @NgModule({
   declarations: [
-    ModelListComponent
+    ModelListComponent,
+    ModelImportComponent
   ],
   imports: [
     CommonModule,
