@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { OAuthService } from 'angular-oauth2-oidc';
 
-import CONFIG from '../../../config/config';
+import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class AuthService {
@@ -10,11 +10,11 @@ export class AuthService {
 
   async start() {
     this.oauthService.configure({
-      issuer: CONFIG.auth.issuer,
+      issuer: environment.auth.issuer,
       redirectUri: window.location.origin,
       postLogoutRedirectUri: window.location.origin,
-      clientId: CONFIG.auth.clientId,
-      scope: CONFIG.auth.scope,
+      clientId: environment.auth.clientId,
+      scope: environment.auth.scope,
       skipIssuerCheck: true,
       strictDiscoveryDocumentValidation: false
     });

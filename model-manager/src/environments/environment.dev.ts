@@ -1,6 +1,10 @@
-export default {
+export const environment = {
+  production: false,
   api: {
     url: 'http://localhost:3000/api'
+  },
+  mocker: {
+    url: 'http://localhost:3001'
   },
   auth: {
     tenantId: 'eae410ed-7a7e-451a-b931-636bbc191a74',
