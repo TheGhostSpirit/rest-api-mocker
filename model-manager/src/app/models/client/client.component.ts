@@ -52,7 +52,7 @@ export class ModelClientComponent implements OnInit {
       this.client.send(
         this.requestForm.controls['method'].value,
         this.mockerUrl + this.requestForm.controls['url'].value,
-        this.hasBody ? this.requestForm.controls['body'].value : undefined
+        this.hasBody ? JSON.parse(this.requestForm.controls['body'].value) : undefined
       ).subscribe(res => this.apiData = JSON.stringify(res));
     }
   }
