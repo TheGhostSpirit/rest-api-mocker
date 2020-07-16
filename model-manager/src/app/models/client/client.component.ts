@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import format from 'json-format';
 
 import { environment } from 'src/environments/environment';
 
@@ -53,7 +54,7 @@ export class ModelClientComponent implements OnInit {
         this.requestForm.controls['method'].value,
         this.mockerUrl + this.requestForm.controls['url'].value,
         this.hasBody ? JSON.parse(this.requestForm.controls['body'].value) : undefined
-      ).subscribe(res => this.apiData = JSON.stringify(res));
+      ).subscribe(res => this.apiData = format(res, { type: 'space', size: 2 }));
     }
   }
 
