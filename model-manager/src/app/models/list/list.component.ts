@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { Model } from 'model-share/types/model';
 
@@ -23,7 +24,11 @@ export class ModelListComponent implements OnInit {
   models: Model[];
   deployed = null;
 
-  constructor(private service: ModelsService, private dialog: MatDialog) {}
+  constructor(
+    private service: ModelsService,
+    private dialog: MatDialog,
+    private router: Router
+  ) { }
 
   ngOnInit() {
     this.refresh();
@@ -35,7 +40,8 @@ export class ModelListComponent implements OnInit {
 
   deploy(model: Model) {
     this.deployed = model;
-    return this.service.deploy(model._id).subscribe();
+    return this.service.deploy(model._id)
+      .subscribe(() => this.router.navigateByUrl('/models/client'));
   }
 
   edit(model: Model) {

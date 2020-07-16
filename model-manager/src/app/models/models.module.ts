@@ -6,11 +6,13 @@ import { ModelsRoutingModule } from './models-routing.module';
 
 import { ModelListComponent } from './list/list.component';
 import { ModelImportComponent } from './import/import.component';
+import { ModelClientComponent } from './client/client.component';
 
 @NgModule({
   declarations: [
     ModelListComponent,
-    ModelImportComponent
+    ModelImportComponent,
+    ModelClientComponent
   ],
   imports: [
     CommonModule,

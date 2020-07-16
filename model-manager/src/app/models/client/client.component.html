@@ -1,0 +1,31 @@
+<h1>Call your API Mock</h1>
+<form [formGroup]="requestForm" (submit)="sendRequest()">
+  <div class="request-header">
+    <mat-select formControlName="method">
+      <mat-option value="get">GET</mat-option>
+      <mat-option value="post">POST</mat-option>
+      <mat-option value="put">PUT</mat-option>
+      <mat-option value="patch">PATCH</mat-option>
+      <mat-option value="delete">DELETE</mat-option>
+    </mat-select>
+    <div class="labeled-input">
+      <div>
+        <span>{{ mockerUrl }}</span>
+      </div>
+      <input matInput placeholder="url" formControlName="url">
+    </div>
+    <button type="submit" [disabled]="!requestForm.valid">Send</button>
+  </div>
+  <div class="request-body">
+    <div class="edit-zone">
+      <b>Body (JSON)</b>
+      <textarea [ngClass]="!hasBody ? 'readonly' : ''" [readonly]="!hasBody" formControlName="body"></textarea>
+    </div>
+    <div class="edit-zone">
+      <b>Response (JSON)</b>
+      <textarea readonly class="readonly">
+        {{ apiData }}
+      </textarea>
+    </div>
+  </div>
+</form>

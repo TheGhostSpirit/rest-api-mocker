@@ -1,0 +1,88 @@
+@import '../../shared/styles/theme.less';
+
+@border-color: #cccccc;
+@disabled-color: #aaaaaa;
+@text-color: rgba(0, 0, 0, 0.6);
+@header-padding: (1em * (2 / 3)) 1em;
+
+.request-header {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  font-weight: 700;
+  color: @text-color;
+  margin: 1rem 0 2rem;
+  & > mat-select {
+    all: unset;
+    flex-grow: 4;
+    text-align: center;
+    margin: 0;
+    border: 1px solid @border-color;
+    padding: @header-padding;
+  }
+  & > button {
+    all: unset;
+    flex-grow: 1;
+    text-align: center;
+    background-color: @main-background;
+    padding: @header-padding;
+    color: @main-text;
+    cursor: pointer;
+    transition: 0.5s;
+    &:hover {
+      background-color: darken(@main-background, 10%);
+    }
+    &:disabled {
+      background-color: @disabled-color;
+      cursor: default;
+    }
+  }
+}
+
+.labeled-input {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  flex-grow: 8;
+  & > input {
+    all: unset;
+    width: 100%;
+    text-align: center;
+    margin: 0;
+    border: 1px solid @border-color;
+    padding: @header-padding;
+  }
+  & > div {
+    display: flex;
+    padding: @header-padding;
+    background-color: @border-color;
+    & > span {
+      margin: auto;
+    }
+  }
+}
+
+.request-body {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-evenly;
+}
+
+.edit-zone {
+  width: 100%;
+  padding: 2rem;
+  & > textarea {
+    resize: none;
+    border: 1px solid @border-color;
+    padding: @header-padding;
+    min-height: 12rem;
+    width: 100%;
+    border-radius: 0.2rem;
+    &:focus {
+      outline: 0;
+    }
+  }
+  & > .readonly {
+    background-color: lighten(@border-color, 10%);
+  }
+}
