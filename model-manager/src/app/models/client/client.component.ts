@@ -15,6 +15,7 @@ export class ModelClientComponent implements OnInit {
 
   mockerUrl = environment.mocker.url;
   apiData = '';
+  apiStatus = '';
   hasBody = false;
 
   requestForm = new FormGroup({
@@ -54,7 +55,10 @@ export class ModelClientComponent implements OnInit {
         this.requestForm.controls['method'].value,
         this.mockerUrl + this.requestForm.controls['url'].value,
         this.hasBody ? JSON.parse(this.requestForm.controls['body'].value) : undefined
-      ).subscribe(res => this.apiData = format(res, { type: 'space', size: 2 }));
+      ).subscribe(({ data, status }) => {
+        this.apiData = format(data, { type: 'space', size: 2 });
+        this.apiStatus = status;
+      });
     }
   }
 

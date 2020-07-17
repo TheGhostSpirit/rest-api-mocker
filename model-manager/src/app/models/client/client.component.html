@@ -23,6 +23,7 @@
     </div>
     <div class="edit-zone">
       <b>Response (JSON)</b>
+      <b *ngIf="apiStatus"> - {{ apiStatus }}</b>
       <textarea readonly class="readonly">{{ apiData }}</textarea>
     </div>
   </div>
