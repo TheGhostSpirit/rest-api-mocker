@@ -4,21 +4,21 @@
     <button mat-button routerLink="/models">
       <h2>My Models</h2>
     </button>
-    <button mat-icon-button [matMenuTriggerFor]="menu">
+    <button mat-icon-button [matMenuTriggerFor]="menu" id="menuButton">
       <mat-icon>account_circle</mat-icon>
       <mat-menu #menu xPosition="before">
         <button mat-menu-item disabled>
           <span>{{ auth.name }}</span>
         </button>
         <mat-divider></mat-divider>
-        <button mat-menu-item (click)="auth.logout()">
+        <button mat-menu-item (click)="auth.logout()" id="signout">
           <mat-icon>logout</mat-icon>
           <span>Sign out</span>
         </button>
       </mat-menu>
     </button>
   </div>
-  <button mat-button (click)="auth.login()" *ngIf="!auth.isLoggedIn">Sign in</button>
+  <button mat-button (click)="auth.login()" *ngIf="!auth.isLoggedIn" class="signin">Sign in</button>
 </mat-toolbar>
 
 <mat-toolbar color="primary">
