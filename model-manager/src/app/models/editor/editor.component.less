@@ -1,0 +1,27 @@
+@header-padding: (1em * (2 / 3)) 1em;
+@border-color: #cccccc;
+
+.edit-zone {
+  display: flex;
+  width: 100%;
+  & > textarea {
+    flex-grow: 1;
+    margin: auto;
+    resize: none;
+    border: 1px solid @border-color;
+    padding: @header-padding;
+    min-height: 40rem;
+    border-radius: 0.2rem;
+    &:focus {
+      outline: 0;
+    }
+  }
+}
+
+.editor-footer {
+  padding: 2rem;
+  display: flex;
+  & > button {
+    margin: auto;
+  }
+}

@@ -7,12 +7,14 @@ import { ModelsRoutingModule } from './models-routing.module';
 import { ModelListComponent } from './list/list.component';
 import { ModelImportComponent } from './import/import.component';
 import { ModelClientComponent } from './client/client.component';
+import { ModelEditorComponent } from './editor/editor.component';
 
 @NgModule({
   declarations: [
     ModelListComponent,
     ModelImportComponent,
-    ModelClientComponent
+    ModelClientComponent,
+    ModelEditorComponent
   ],
   imports: [
     CommonModule,

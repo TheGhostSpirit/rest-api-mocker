@@ -43,7 +43,7 @@
         <button mat-icon-button (click)="deploy(element)" *ngIf="element !== deployed">
           <mat-icon>publish</mat-icon>
         </button>
-        <button mat-icon-button color="primary">
+        <button mat-icon-button color="primary" [routerLink]="[element._id, 'editor']">
           <mat-icon>edit</mat-icon>
         </button>
         <button mat-icon-button color="warn" (click)="delete(element)">

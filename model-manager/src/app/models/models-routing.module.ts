@@ -3,8 +3,10 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { ModelListComponent } from './list/list.component';
 import { ModelClientComponent } from './client/client.component';
+import { ModelEditorComponent } from './editor/editor.component';
 
 const routes: Routes = [
+  { path: ':id/editor', component: ModelEditorComponent },
   { path: ':id/client', component: ModelClientComponent },
   { path: '', component: ModelListComponent }
 ];

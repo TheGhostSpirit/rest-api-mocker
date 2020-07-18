@@ -1,0 +1,14 @@
+<div *ngIf="model">
+  <h1>Editing {{ model.api.name }}</h1>
+  <div class="edit-zone">
+    <textarea [(ngModel)]="yamlDocument"></textarea>
+  </div>
+  <div class="editor-footer">
+    <button mat-flat-button color="primary" (click)="save()">
+      <span>Save </span>
+      <mat-icon>
+        save
+      </mat-icon>
+    </button>
+  </div>
+</div>
