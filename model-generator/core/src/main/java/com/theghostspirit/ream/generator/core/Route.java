@@ -7,8 +7,9 @@ public class Route {
     private String path;
     private String method;
     private String description;
-    private Query query;
-    private ArrayList<Response> responses;
+    private String operationId;
+    private Query query = new Query();
+    private ArrayList<Response> responses = new ArrayList<Response>();
 
     public String getPath() {
         return path;
@@ -22,6 +23,10 @@ public class Route {
         return method;
     }
 
+    public void setMethod(String method) {
+        this.method = method;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -30,8 +35,12 @@ public class Route {
         this.description = description;
     }
 
-    public void setMethod(String method) {
-        this.method = method;
+    public String getOperationId() {
+        return operationId;
+    }
+
+    public void setOperationId(String operationId) {
+        this.operationId = operationId;
     }
 
     public Query getQuery() {
@@ -48,9 +57,5 @@ public class Route {
 
     public void setResponses(ArrayList<Response> responses) {
         this.responses = responses;
-    }
-
-    public void addResponse(Response response){
-        responses.add(response);
     }
 }

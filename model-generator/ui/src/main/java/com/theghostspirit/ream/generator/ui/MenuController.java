@@ -3,6 +3,7 @@ package com.theghostspirit.ream.generator.ui;
 import java.awt.Desktop;
 
 import com.theghostspirit.ream.generator.core.Api;
+import com.theghostspirit.ream.generator.core.ImportModel;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -14,6 +15,7 @@ import javafx.scene.control.Button;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
@@ -39,6 +41,7 @@ public class MenuController {
 
     @FXML
     void loadApiScene(ActionEvent event)throws IOException {
+        /*
         Parent apiView = FXMLLoader.load(getClass().getResource("/ApiView.fxml"));
         Scene apiScene = new Scene(apiView);
 
@@ -46,6 +49,17 @@ public class MenuController {
 
         window.setScene(apiScene);
         window.show();
+        */
+        this.api = new Api();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ApiView.fxml"));
+        Parent apiView = (Parent) loader.load();
+        Scene apiScene = new Scene(apiView);
+        Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        ApiController controlR = loader.getController();
+        controlR.setApi(api);
+        window.setScene(apiScene);
+        window.show();
+
     }
 
     @FXML
@@ -60,15 +74,23 @@ public class MenuController {
     }
 
     @FXML
-    void selectFile(ActionEvent event){
+    void selectFile(ActionEvent event)throws IOException{
 
         Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
         File file = fileChooser.showOpenDialog(window);
+        String path = file.getAbsolutePath();
+        ImportModel importModel = new ImportModel();
 
-        if (file != null) {
-            openFile(file);
-            List<File> files = Arrays.asList(file);
-        }
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ApiView.fxml"));
+        Parent apiView = (Parent) loader.load();
+        Scene apiScene = new Scene(apiView);
+        window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        ApiController controlR = loader.getController();
+        controlR.setApi(importModel.ImportJsonFile(path));
+        controlR.setTextData();
+        window.setScene(apiScene);
+        window.show();
+
     }
 
     void setRouter(final Router router) {

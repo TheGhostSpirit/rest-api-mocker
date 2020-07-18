@@ -1,6 +1,7 @@
 package com.theghostspirit.ream.generator.core;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -8,32 +9,61 @@ import java.nio.file.Paths;
 
 public class ImportModel {
 
-    public void ImportJsonFile (String path){
+    public Api ImportJsonFile (String path){
 
         String content = "";
+        Api api = new Api();
 
-        try
-        {
-            content = new String ( Files.readAllBytes( Paths.get(path) ) );
+        String extension = checkExtension(path);
 
-            System.out.println(content);
+        if(!(extension.equals("yaml") || extension.equals(("json")))) {
 
-            try{
+            try {
+                content = new String(Files.readAllBytes(Paths.get(path)));
+                System.out.println(content);
 
-            ObjectMapper objectMapper = new ObjectMapper();
+                if (extension.equals("yaml")) {
+                    try {
+                        com.fasterxml.jackson.databind.ObjectMapper objectMapper = new com.fasterxml.jackson.databind.ObjectMapper(new YAMLFactory());
 
-            Api api = objectMapper.readValue (content, Api.class);
+                        api = objectMapper.readValue(content, Api.class);
 
 
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    try {
+                        ObjectMapper objectMapper = new ObjectMapper();
+
+                        api = objectMapper.readValue(content, Api.class);
+
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             } catch (IOException e) {
-                e.printStackTrace ();
+                e.printStackTrace();
             }
+        }
+        return api;
 
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
+    }
+
+    private String checkExtension(String path){
+
+        System.out.println("Verification path : " + path);
+
+        String[] arrayPath = path.split("\\.");
+
+        System.out.println("Size : " + arrayPath.length);
+
+        String extension = arrayPath[arrayPath.length-1];
+
+        System.out.println("Check extension : " + extension);
+
+        return extension;
     }
 
 }

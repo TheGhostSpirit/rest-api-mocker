@@ -1,15 +1,9 @@
 package com.theghostspirit.ream.generator.core;
 
-public class Field {
+public class FieldParameter {
     private String name;
     private String type;
     private Boolean required;
-
-    public Field(String name, String type, Boolean required) {
-        this.name = name;
-        this.type = type;
-        this.required = required;
-    }
 
     public String getName() {
         return name;

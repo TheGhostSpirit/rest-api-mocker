@@ -1,12 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.theghostspirit.ream.generator.ui.QueryController">
    <children>
-      <Label text="Label" />
+      <Label prefHeight="27.0" prefWidth="100.0" text="Query">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
       <Button fx:id="addObjectQuery" mnemonicParsing="false" onAction="#loadObjectScene" text="Add Object" />
+      <HBox fx:id="HboxListObjectQuery" prefHeight="29.0" prefWidth="600.0">
+         <children>
+            <Label text="Listes des objects : ">
+               <HBox.margin>
+                  <Insets left="10.0" top="5.0" />
+               </HBox.margin>
+            </Label>
+            <ComboBox fx:id="listObjectCombo" prefHeight="25.0" prefWidth="237.0" />
+            <Button mnemonicParsing="false" onAction="#deleteObject" prefHeight="25.0" prefWidth="72.0" text="Delete">
+               <HBox.margin>
+                  <Insets left="20.0" />
+               </HBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#editObject" prefHeight="25.0" prefWidth="76.0" text="Edit" />
+         </children>
+         <VBox.margin>
+            <Insets top="50.0" />
+         </VBox.margin>
+      </HBox>
+      <Button mnemonicParsing="false" onAction="#loadPreviousScene" text="&lt;--">
+         <VBox.margin>
+            <Insets top="50.0" />
+         </VBox.margin>
+      </Button>
    </children>
 </VBox>

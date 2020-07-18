@@ -4,6 +4,11 @@ public class Contact {
     private String name;
     private String email;
 
+    public Contact() {
+        this.name = "";
+        this.email = "";
+    }
+
     public String getName() {
         return name;
     }

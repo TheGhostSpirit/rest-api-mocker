@@ -12,21 +12,18 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
-
 import javafx.scene.control.TextField;
-
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
-
-public class ObjectController {
-
+public class ObjectResponseController {
     private Api api;
     private int indexOfRoute;
+    private int indexResponse;
+    private int indexObject;
     private FieldParameter newObject = new FieldParameter();
     private boolean loadObject = false;
-    private int indexObject;
 
     public void setApi(Api api){
         this.api = api;
@@ -37,18 +34,20 @@ public class ObjectController {
     }
 
 
+    public void setIndexResponse(int indexResponse) {
+        this.indexResponse = indexResponse;
+    }
 
     public int getIndexOfRoute() {
         return indexOfRoute;
     }
 
     public void setTextData(){
-        nameObject.setText(this.api.getRoutes().get(indexOfRoute).getQuery().getFieldParameterList().get(indexObject).getName());
-        selectTypeObject.getSelectionModel().select(this.api.getRoutes().get(this.indexOfRoute).getQuery().getFieldParameterList().get(indexObject).getType());
-        if(this.api.getRoutes().get(this.indexOfRoute).getQuery().getFieldParameterList().get(indexObject).getRequired()){
+        nameObject.setText(this.api.getRoutes().get(indexOfRoute).getResponses().get(indexResponse).getFieldParameterList().get(indexObject).getName());
+        selectTypeObject.getSelectionModel().select(this.api.getRoutes().get(this.indexOfRoute).getResponses().get(indexResponse).getFieldParameterList().get(indexObject).getType());
+        if(this.api.getRoutes().get(this.indexOfRoute).getResponses().get(indexResponse).getFieldParameterList().get(indexObject).getRequired()){
             requiredObject.setSelected(true);
         }
-        this.loadObject = true;
 
     }
 
@@ -64,7 +63,6 @@ public class ObjectController {
 
     @FXML
     private CheckBox requiredObject;
-    //requiredObject
 
     @FXML
     public void initialize() {
@@ -86,25 +84,20 @@ public class ObjectController {
                 newObject.setRequired(false);
             }
 
-
             System.out.println("Index of route " + indexOfRoute);
 
-            System.out.println("Size of query parameter list : " +  this.api.getRoutes().get(indexOfRoute).getQuery().getFieldParameterList().size());
+            System.out.println("Size of query parameter list : " +  this.api.getRoutes().get(indexOfRoute).getResponses().get(indexResponse).getFieldParameterList().size());
 
-            this.api.getRoutes().get(indexOfRoute).getQuery().getFieldParameterList().add(newObject);
-
-            System.out.println("Size of query parameter list : " +  this.api.getRoutes().get(indexOfRoute).getQuery().getFieldParameterList().size());
-
-            System.out.println("Index de la route ajouté : " + api.getRoutes().get(indexOfRoute).getQuery().getFieldParameterList().indexOf(newObject));
+            this.api.getRoutes().get(indexOfRoute).getResponses().get(indexResponse).getFieldParameterList().add(newObject);
 
             this.loadObject = true;
         }else{
-            this.api.getRoutes().get(indexOfRoute).getQuery().getFieldParameterList().get(this.indexObject).setName(nameObject.getText());
-            this.api.getRoutes().get(indexOfRoute).getQuery().getFieldParameterList().get(this.indexObject).setType(selectTypeObject.getSelectionModel().getSelectedItem());
+            this.api.getRoutes().get(indexOfRoute).getResponses().get(indexResponse).getFieldParameterList().get(this.indexObject).setName(nameObject.getText());
+            this.api.getRoutes().get(indexOfRoute).getResponses().get(indexResponse).getFieldParameterList().get(this.indexObject).setType(selectTypeObject.getSelectionModel().getSelectedItem());
             if(requiredObject.isSelected()) {
-                this.api.getRoutes().get(indexOfRoute).getQuery().getFieldParameterList().get(this.indexObject).setRequired(true);
+                this.api.getRoutes().get(indexOfRoute).getResponses().get(indexResponse).getFieldParameterList().get(this.indexObject).setRequired(true);
             }else{
-                this.api.getRoutes().get(indexOfRoute).getQuery().getFieldParameterList().get(this.indexObject).setRequired(false);
+                this.api.getRoutes().get(indexOfRoute).getResponses().get(indexResponse).getFieldParameterList().get(this.indexObject).setRequired(false);
             }
         }
 
@@ -113,17 +106,16 @@ public class ObjectController {
 
     @FXML
     void loadPreviousScene (ActionEvent event)throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/QueryView.fxml"));
-        Parent queryView = (Parent) loader.load();
-        Scene queryScene = new Scene(queryView);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ResponseView.fxml"));
+        Parent responseView = (Parent) loader.load();
+        Scene responseScene = new Scene(responseView);
         Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        QueryController controlR = loader.getController();
+        ResponseController controlR = loader.getController();
         controlR.setApi(api);
         controlR.setIndexOfRoute(this.indexOfRoute);
+        controlR.setIndexResponse(this.indexResponse);
         controlR.setTextData();
-        window.setScene(queryScene);
+        window.setScene(responseScene);
         window.show();
     }
-
-
 }

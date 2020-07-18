@@ -5,8 +5,7 @@ import java.util.ArrayList;
 public class Response {
     private String status;
     private String description;
-
-    private ArrayList<Field> fieldList;
+    private ArrayList<FieldParameter> fieldParameterList = new ArrayList<FieldParameter>();
 
     public String getStatus() {
         return status;
@@ -24,16 +23,12 @@ public class Response {
         this.description = description;
     }
 
-    public ArrayList<Field> getFieldList() {
-        return fieldList;
+    public ArrayList<FieldParameter> getFieldParameterList() {
+        return fieldParameterList;
     }
 
-    public void setFieldList(ArrayList<Field> fieldList) {
-        this.fieldList = fieldList;
+    public void setFieldParameterList(ArrayList<FieldParameter> fieldParameterList) {
+        this.fieldParameterList = fieldParameterList;
     }
 
-    public void addField(String name, String type, Boolean required){
-        Field field = new Field(name,type,required);
-        fieldList.add(field);
-    }
 }
