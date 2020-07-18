@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Model } from 'model-share/types/model';
 import { from } from 'rxjs';
-import { flatMap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 
 @Injectable()
 export class ModelsService {
@@ -20,15 +20,19 @@ export class ModelsService {
   import(file: File) {
     return from(file.text())
       .pipe(
-        flatMap(text =>
+        switchMap(text =>
           this.http.post<Object>('/convert/json', text,
             { headers: { 'Content-Type': 'text/yaml' } }
           )
         ),
-        flatMap(
+        switchMap(
           json => this.http.post('/models', json)
         )
       );
+  }
+
+  update(id: string, model: Model) {
+    return this.http.put(`/models/${id}`, model);
   }
 
   delete(id: string) {

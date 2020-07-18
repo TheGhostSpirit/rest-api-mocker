@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { Model } from 'model-share/types/model';
+import { filter, switchMap } from 'rxjs/operators';
 
 import { ModelsService } from '../../core/services/models/models.service';
 import { ModelImportComponent } from '../import/import.component';
@@ -51,12 +52,12 @@ export class ModelListComponent implements OnInit {
   import() {
     this.dialog.open(ModelImportComponent)
       .afterClosed()
-      .subscribe((file?: File) => {
-        if (file) {
-          this.service.import(file)
-            .subscribe(() => this.refresh());
-        }
-      });
+      .pipe(
+        filter(f => !!f),
+        switchMap(f => this.service.import(f)),
+        switchMap(() => this.service.findAll())
+      )
+      .subscribe(res => this.models = res);
   }
 
   delete(model: Model) {
