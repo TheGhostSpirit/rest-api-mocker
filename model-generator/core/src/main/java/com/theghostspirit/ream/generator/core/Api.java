@@ -5,10 +5,22 @@ import java.util.ArrayList;
 public class Api {
     private String name;
     private String description;
+    private String serverPath;
     private String license;
     private String version;
     private Contact contact;
     private ArrayList<Route> routes;
+
+
+    public Api() {
+        this.name = "";
+        this.description = "";
+        this.license = "";
+        this.version = "";
+        this.serverPath = "";
+        this.contact = new Contact();
+        this.routes = new ArrayList<Route>();
+    }
 
     public String getName() {
         return name;
@@ -24,6 +36,14 @@ public class Api {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getServerPath() {
+        return serverPath;
+    }
+
+    public void setServerPath(String serverPath) {
+        this.serverPath = serverPath;
     }
 
     public String getLicense() {
@@ -56,5 +76,13 @@ public class Api {
 
     public void setRoutes(ArrayList<Route> routes) {
         this.routes = routes;
+    }
+
+    public String toString(){
+        return "Api description :  " + getDescription();
+    }
+
+    public void addRoute(Route route){
+        this.routes.add(route);
     }
 }

@@ -1,4 +1,4 @@
-package modelGenerator;
+package com.theghostspirit.ream.generator.ui;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -65,7 +65,7 @@ public class createModel extends Application{
           //  ap.getContact().setEmail("mathis1703@hotmail.fr");
 
             ExportModel exportModel = new ExportModel();
-            exportModel.getJsonModel(ap);
+            //exportModel.getJsonModel(ap);
 
             //END
         });

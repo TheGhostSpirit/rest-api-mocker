@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="558.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.theghostspirit.ream.generator.ui.ApiController">
+   <children>
+      <HBox prefHeight="54.0" prefWidth="600.0">
+         <children>
+            <Label text="Api name :">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Label>
+            <TextField fx:id="apiName" prefHeight="25.0" prefWidth="391.0">
+               <HBox.margin>
+                  <Insets left="20.0" top="5.0" />
+               </HBox.margin>
+            </TextField>
+         </children>
+      </HBox>
+      <TextField fx:id="apiDescription" prefHeight="69.0" prefWidth="600.0" promptText="API description">
+         <VBox.margin>
+            <Insets bottom="10.0" />
+         </VBox.margin>
+      </TextField>
+      <Label text="Servers" />
+      <TextField fx:id="serverAddress" promptText="Address" />
+      <Label text="Contact">
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin>
+      </Label>
+      <HBox prefHeight="23.0" prefWidth="600.0">
+         <children>
+            <TextField fx:id="contactName" prefHeight="25.0" prefWidth="309.0" promptText="Contact name" />
+            <TextField fx:id="contactEmail" prefHeight="25.0" prefWidth="348.0" promptText="Email" />
+         </children>
+      </HBox>
+      <Label text="License">
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin>
+      </Label>
+      <TextField fx:id="licenseUrl" promptText="License Url" />
+      <Button fx:id="newRoutesButton" mnemonicParsing="false" onAction="#loadRouteView" prefHeight="25.0" prefWidth="200.0" text="New route">
+         <VBox.margin>
+            <Insets left="200.0" top="30.0" />
+         </VBox.margin>
+      </Button>
+      <HBox fx:id="HboxListRoutes" prefHeight="24.0" prefWidth="600.0">
+         <children>
+            <Label text="Listes des routes : ">
+               <HBox.margin>
+                  <Insets left="10.0" top="5.0" />
+               </HBox.margin>
+            </Label>
+            <ComboBox fx:id="listRoutesApi" prefHeight="25.0" prefWidth="192.0">
+               <HBox.margin>
+                  <Insets left="5.0" />
+               </HBox.margin>
+            </ComboBox>
+            <Button mnemonicParsing="false" onAction="#deleteRoute" text="Delete">
+               <HBox.margin>
+                  <Insets left="20.0" />
+               </HBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#editRoute" prefHeight="25.0" prefWidth="52.0" text="Edit" />
+         </children>
+         <VBox.margin>
+            <Insets top="30.0" />
+         </VBox.margin>
+      </HBox>
+      <Button mnemonicParsing="false" onAction="#saveApi" prefHeight="32.0" prefWidth="100.0" text="Save">
+         <VBox.margin>
+            <Insets left="250.0" top="50.0" />
+         </VBox.margin></Button>
+      <HBox prefHeight="25.0" prefWidth="600.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#loadPreviousScene" prefHeight="25.0" prefWidth="85.0" text="&lt;--" />
+            <Button mnemonicParsing="false" onAction="#exportThisApiYAML" prefHeight="25.0" prefWidth="116.0" text="Export YAML">
+               <HBox.margin>
+                  <Insets left="350.0" />
+               </HBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#exportThisApiJSON" prefHeight="25.0" prefWidth="115.0" text="Export JSON">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </Button>
+         </children>
+         <VBox.margin>
+            <Insets top="60.0" />
+         </VBox.margin>
+      </HBox>
+   </children>
+</VBox>
