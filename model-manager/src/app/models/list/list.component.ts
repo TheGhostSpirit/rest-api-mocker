@@ -41,7 +41,7 @@ export class ModelListComponent implements OnInit {
   deploy(model: Model) {
     this.deployed = model;
     return this.service.deploy(model._id)
-      .subscribe(() => this.router.navigateByUrl('/models/client'));
+      .subscribe(() => this.router.navigateByUrl(`/models/${model._id}/client`));
   }
 
   edit(model: Model) {

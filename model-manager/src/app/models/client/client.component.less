@@ -5,6 +5,15 @@
 @text-color: rgba(0, 0, 0, 0.6);
 @header-padding: (1em * (2 / 3)) 1em;
 
+.client {
+  background-color: white;
+  padding: 0 2rem;
+}
+
+.drawer {
+  padding-right: 2rem;
+}
+
 .request-header {
   display: flex;
   flex-flow: row nowrap;
@@ -75,7 +84,7 @@
     resize: none;
     border: 1px solid @border-color;
     padding: @header-padding;
-    min-height: 35rem;
+    min-height: 32rem;
     width: 100%;
     border-radius: 0.2rem;
     &:focus {
@@ -84,5 +93,12 @@
   }
   & > .readonly {
     background-color: lighten(@border-color, 10%);
+  }
+}
+
+.api-link {
+  cursor: pointer;
+  &:hover {
+    color: @main-background;
   }
 }
