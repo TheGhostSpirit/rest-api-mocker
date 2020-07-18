@@ -79,6 +79,7 @@ public class MenuController {
         Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
         File file = fileChooser.showOpenDialog(window);
         String path = file.getAbsolutePath();
+
         ImportModel importModel = new ImportModel();
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ApiView.fxml"));

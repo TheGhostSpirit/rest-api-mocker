@@ -11,12 +11,17 @@ import java.io.IOException;
 
 public class ExportModel {
 
+    private ApiWrapper apiWrapper;
+
     public void getJsonModel(Api api, String path){
 
-        ObjectMapper map = new ObjectMapper();
+        apiWrapper= new ApiWrapper();
 
+        ObjectMapper map = new ObjectMapper();
+        apiWrapper.setApi(api);
+        apiWrapper.setVersion("1.0.0");
         try{
-            String jsonModel = map.writeValueAsString(api);
+            String jsonModel = map.writeValueAsString(apiWrapper);
             System.out.println(jsonModel);
 
             try {
@@ -43,10 +48,14 @@ public class ExportModel {
 
     public void getYamlModel(Api api, String path){
 
+        apiWrapper= new ApiWrapper();
+
         com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper(new YAMLFactory());
+        apiWrapper.setApi(api);
+        apiWrapper.setVersion("1.0.0");
 
         try{
-            String yaml = mapper.writeValueAsString(api);
+            String yaml = mapper.writeValueAsString(apiWrapper);
 
             try {
                 File myObj = new File(path);

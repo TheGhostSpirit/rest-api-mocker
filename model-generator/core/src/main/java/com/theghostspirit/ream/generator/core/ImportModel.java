@@ -12,11 +12,11 @@ public class ImportModel {
     public Api ImportJsonFile (String path){
 
         String content = "";
-        Api api = new Api();
+        ApiWrapper apiWrapper = new ApiWrapper();
 
         String extension = checkExtension(path);
 
-        if(!(extension.equals("yaml") || extension.equals(("json")))) {
+        if(extension.equals("yaml") || extension.equals("json")) {
 
             try {
                 content = new String(Files.readAllBytes(Paths.get(path)));
@@ -26,7 +26,7 @@ public class ImportModel {
                     try {
                         com.fasterxml.jackson.databind.ObjectMapper objectMapper = new com.fasterxml.jackson.databind.ObjectMapper(new YAMLFactory());
 
-                        api = objectMapper.readValue(content, Api.class);
+                        apiWrapper = objectMapper.readValue(content, ApiWrapper.class);
 
 
                     } catch (IOException e) {
@@ -36,7 +36,7 @@ public class ImportModel {
                     try {
                         ObjectMapper objectMapper = new ObjectMapper();
 
-                        api = objectMapper.readValue(content, Api.class);
+                        apiWrapper = objectMapper.readValue(content, ApiWrapper.class);
 
 
                     } catch (IOException e) {
@@ -47,7 +47,7 @@ public class ImportModel {
                 e.printStackTrace();
             }
         }
-        return api;
+        return apiWrapper.getApi();
 
     }
 

@@ -76,6 +76,7 @@ public class ApiController {
     public void setTextData(){
         newRoutesButton.setVisible(true);
         apiName.setText(this.api.getName());
+        System.out.println("VERIFICATION IMPRORT : " + this.api.getName());
         apiDescription.setText(this.api.getDescription());
         serverAddress.setText(this.api.getServerPath());
         contactName.setText(this.api.getContact().getName());
