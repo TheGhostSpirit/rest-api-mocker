@@ -4,11 +4,11 @@
     <button mat-button routerLink="/models">
       <h2>My Models</h2>
     </button>
-    <button mat-icon-button [matMenuTriggerFor]="menu" id="menuButton">
+    <button mat-icon-button [matMenuTriggerFor]="menu" id="menu-button">
       <mat-icon>account_circle</mat-icon>
       <mat-menu #menu xPosition="before">
         <button mat-menu-item disabled>
-          <span>{{ auth.name }}</span>
+          <span id="user-name">{{ auth.name }}</span>
         </button>
         <mat-divider></mat-divider>
         <button mat-menu-item (click)="auth.logout()" id="signout">

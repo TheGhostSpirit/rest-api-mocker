@@ -7,10 +7,9 @@ export class Home {
 
   signIn() {
     this.getHomeButton().click();
+    browser.driver.sleep(1000);
 
-    var emailInput = browser.driver.findElement(by.id('i0116'));
-    emailInput.sendKeys('baba@quentincariteyoutlook.onmicrosoft.com');
-    browser.driver.findElement(by.id('idSIButton9')).click();
+    browser.driver.findElement(by.css('.tile-container')).click();
     browser.driver.sleep(1000);
 
     var passwordInput = browser.driver.findElement(by.id('i0118'));
@@ -34,6 +33,6 @@ export class Home {
   }
 
   getModelListTitle() {
-    return element(by.css('.model-list-header h2'));
+    return element(by.id('list-title'));
   }
 }

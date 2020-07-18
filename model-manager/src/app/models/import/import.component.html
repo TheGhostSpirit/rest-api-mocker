@@ -5,6 +5,6 @@
   <span *ngIf="file">{{ file?.name }}</span>
   <div>
     <button mat-flat-button color="primary" *ngIf="file" (click)="import()">Import</button>
-    <button mat-flat-button color="warn" (click)="close()">Cancel</button>
+    <button mat-flat-button color="warn" (click)="close()" id="cancel-import">Cancel</button>
   </div>
 </div>

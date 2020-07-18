@@ -29,8 +29,8 @@ export class Header {
     browser.driver.sleep(1000);
 
     browser.driver.findElement(by.css('.tile-container')).click();
-    browser.driver.sleep(200);
-    browser.driver.sleep(3000);
+    browser.driver.sleep(500);
+    browser.driver.sleep(2000);
   }
 
   getHeaderTitle() {
@@ -50,10 +50,14 @@ export class Header {
   }
 
   getMenuButton() {
-    return element(by.id('menuButton'));
+    return element(by.id('menu-button'));
+  }
+  
+  getUserName() {
+    return element(by.id('user-name'));
   }
 
   getModelListTitle() {
-    return element(by.css('.model-list-header h2'));
+    return element(by.id('list-title'));
   }
 }

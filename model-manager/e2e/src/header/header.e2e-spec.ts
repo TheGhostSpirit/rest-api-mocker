@@ -14,23 +14,27 @@ describe('model-manager header', () => {
   });
 
   it('should display sign in button', () => {
-    header.navigateTo();
     expect(header.getHeaderSignIn().getText()).toEqual('Sign in');
   });
 
   it('can sign in', () => {
-    header.navigateTo();
     header.signIn();
 
-    expect(header.getHeaderSubTitle().getText).toEqual('My Models');
+    expect(header.getHeaderSubTitle().getText()).toEqual('My Models');
   });
 
   it('can navigate to My Models', () => {
-    header.navigateTo();
     header.getHeaderSubTitle().click();
-    browser.driver.sleep(3000);
+    browser.driver.sleep(1000);
 
     expect(header.getModelListTitle().getText()).toEqual('My API Models');
+  });
+
+  it('should display user name in menu', () => {
+    header.getMenuButton().click();
+    browser.driver.sleep(1000);
+
+    expect(header.getUserName().getText()).toEqual('Baptiste Lego');
   });
 
   it('can sign out', () => {
@@ -40,11 +44,11 @@ describe('model-manager header', () => {
     expect(header.getHeaderSignIn().getText()).toEqual('Sign in');
   });
 
-  afterEach(async () => {
-    // Assert that there are no errors emitted from the browser
-    const logs = await browser.manage().logs().get(logging.Type.BROWSER);
-    expect(logs).not.toContain(jasmine.objectContaining({
-      level: logging.Level.SEVERE,
-    } as logging.Entry));
-  });
+  // afterEach(async () => {
+  //   // Assert that there are no errors emitted from the browser
+  //   const logs = await browser.manage().logs().get(logging.Type.BROWSER);
+  //   expect(logs).not.toContain(jasmine.objectContaining({
+  //     level: logging.Level.SEVERE,
+  //   } as logging.Entry));
+  // });
 });
