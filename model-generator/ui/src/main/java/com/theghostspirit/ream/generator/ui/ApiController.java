@@ -2,6 +2,7 @@ package com.theghostspirit.ream.generator.ui;
 
 import com.theghostspirit.ream.generator.core.Api;
 import com.theghostspirit.ream.generator.core.ExportModel;
+import com.theghostspirit.ream.generator.core.PluginLoader;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,6 +17,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
@@ -28,6 +30,7 @@ import java.util.ArrayList;
 public class ApiController {
 
     private Api api;
+    private final FileChooser fileChooser = new FileChooser();
 
     public void setApi(Api api){
         this.api = api;
@@ -233,5 +236,14 @@ public class ApiController {
             result = false;
         }
         return result;
+    }
+
+    @FXML
+    void callPluginFunction(ActionEvent event)throws IOException{
+        Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        File file = fileChooser.showOpenDialog(window);
+        String path = file.getAbsolutePath();
+        var loader = new PluginLoader(path);
+        loader.loadPlugin(this.api);
     }
 }

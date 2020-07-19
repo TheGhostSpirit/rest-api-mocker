@@ -4,6 +4,7 @@ import java.awt.Desktop;
 
 import com.theghostspirit.ream.generator.core.Api;
 import com.theghostspirit.ream.generator.core.ImportModel;
+import com.theghostspirit.ream.generator.core.PluginLoader;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -81,13 +82,6 @@ public class MenuController {
         window.setScene(apiScene);
         window.show();
 
-    }
-
-    @FXML
-    void callPluginFunction(ActionEvent event)throws IOException{
-        Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        File file = fileChooser.showOpenDialog(window);
-        String path = file.getAbsolutePath();
     }
 
     void setRouter(final Router router) {
