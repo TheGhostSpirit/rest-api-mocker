@@ -10,6 +10,9 @@ job1:
   script:
     - cd model-api
     - npm install
+  artifacts:
+    paths:
+      - node_modules/
 job2:
   stage: test
   script:
