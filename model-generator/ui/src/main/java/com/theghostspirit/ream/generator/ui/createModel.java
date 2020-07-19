@@ -58,16 +58,10 @@ public class createModel extends Application{
         });
 
         exportButton.setOnMouseClicked(event ->{
-            //TEST
             Api ap = new Api();
             ap.setName("Ma première API");
             ap.setDescription("Description de mon api");
-          //  ap.getContact().setEmail("mathis1703@hotmail.fr");
-
             ExportModel exportModel = new ExportModel();
-            //exportModel.getJsonModel(ap);
-
-            //END
         });
 
         final var hBox = new HBox();

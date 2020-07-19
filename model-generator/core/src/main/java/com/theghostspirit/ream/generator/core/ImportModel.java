@@ -48,21 +48,11 @@ public class ImportModel {
             }
         }
         return apiWrapper.getApi();
-
     }
 
     private String checkExtension(String path){
-
-        System.out.println("Verification path : " + path);
-
         String[] arrayPath = path.split("\\.");
-
-        System.out.println("Size : " + arrayPath.length);
-
         String extension = arrayPath[arrayPath.length-1];
-
-        System.out.println("Check extension : " + extension);
-
         return extension;
     }
 

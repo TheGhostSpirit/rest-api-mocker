@@ -26,10 +26,7 @@ public class ModelController {
         Scene objectScene = new Scene(objectView);
         System.out.println("Ok dans le loadRouteView");
         Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-
         ObjectController controlR = loader.getController();
-        //controlR.setApi(api);
-
         window.setScene(objectScene);
         window.show();
     }

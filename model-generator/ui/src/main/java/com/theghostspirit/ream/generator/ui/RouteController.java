@@ -41,60 +41,6 @@ public class RouteController {
         this.indexOfRoute = indexOfRoute;
     }
 
-    public void setTextData(Boolean loadRouteCheck){
-        apiPath.setText(this.api.getServerPath() + " : ");
-        if(loadRouteCheck == true){
-            AddQueryButton.setVisible(true);
-            AddResponseButton.setVisible(true);
-            routeUrl.setText(this.api.getRoutes().get(this.indexOfRoute).getPath());
-            operationId.setText(this.api.getRoutes().get(this.indexOfRoute).getOperationId());
-            routeDescription.setText(this.api.getRoutes().get(this.indexOfRoute).getDescription());
-            methodList.getSelectionModel().select(this.api.getRoutes().get(this.indexOfRoute).getMethod());
-            if(this.api.getRoutes().get(indexOfRoute).getResponse().isEmpty() == false){
-                loadListOfResponsesSelect();
-            }else{
-                hboxResponseList.setVisible(false);
-            }
-
-            if(this.api.getRoutes().get(indexOfRoute).getBody().isEmpty() == false){
-                loadListOfBodySelect();
-            }else{
-                hboxBodyList.setVisible(false);
-            }
-
-                this.loadRoute = true;
-            // Rajouter le champ combo préselectionné
-        }
-    }
-
-    public void loadListOfResponsesSelect(){
-        hboxResponseList.setVisible(true);
-        ArrayList<String> listResponseView = new ArrayList<String>();
-
-        for(int i = 0 ; i < this.api.getRoutes().get(indexOfRoute).getResponse().size() ; i++){
-            String AddResponseToList = this.api.getRoutes().get(indexOfRoute).getResponse().get(i).getStatus() + "   :   " + this.api.getRoutes().get(indexOfRoute).getResponse().get(i).getDescription();
-            listResponseView.add(AddResponseToList);
-        }
-
-        ObservableList<String> listOfRoutes = FXCollections.observableArrayList(listResponseView);
-        responsesRouteList.setItems(listOfRoutes);
-        responsesRouteList.getSelectionModel().selectFirst();
-    }
-
-    public void loadListOfBodySelect(){
-        hboxBodyList.setVisible(true);
-        ArrayList<String> listBodyView = new ArrayList<String>();
-
-        for(int i = 0 ; i < this.api.getRoutes().get(indexOfRoute).getBody().size() ; i++){
-            String AddBodyToList = this.api.getRoutes().get(indexOfRoute).getBody().get(i).getType() + "   :   " + this.api.getRoutes().get(indexOfRoute).getBody().get(i).getName();
-            listBodyView.add(AddBodyToList);
-        }
-
-        ObservableList<String> listOfBody = FXCollections.observableArrayList(listBodyView);
-        responsesBodyList.setItems(listOfBody);
-        responsesBodyList.getSelectionModel().selectFirst();
-    }
-
     @FXML
     private TextField routeUrl;
 
@@ -130,63 +76,88 @@ public class RouteController {
 
     @FXML
     public void initialize() {
-
-        //this.api = api;
         ObservableList<String>listOfMethod = FXCollections.observableArrayList("GET","POST","PUT","PATCH","DELETE");
         methodList.setItems(listOfMethod);
+        methodList.getSelectionModel().selectFirst();
         hboxResponseList.setVisible(false);
         hboxBodyList.setVisible(false);
         AddQueryButton.setVisible(false);
         AddResponseButton.setVisible(false);
     }
 
+    public void setTextData(Boolean loadRouteCheck){
+        apiPath.setText(this.api.getServerPath() + " : ");
+        if(loadRouteCheck == true){
+            AddQueryButton.setVisible(true);
+            AddResponseButton.setVisible(true);
+            routeUrl.setText(this.api.getRoutes().get(this.indexOfRoute).getPath());
+            operationId.setText(this.api.getRoutes().get(this.indexOfRoute).getOperationId());
+            routeDescription.setText(this.api.getRoutes().get(this.indexOfRoute).getDescription());
+            methodList.getSelectionModel().select(this.api.getRoutes().get(this.indexOfRoute).getMethod());
+            if(this.api.getRoutes().get(indexOfRoute).getResponse().isEmpty() == false){
+                loadListOfResponsesSelect();
+            }else{
+                hboxResponseList.setVisible(false);
+            }
+            if(this.api.getRoutes().get(indexOfRoute).getBody().isEmpty() == false){
+                loadListOfBodySelect();
+            }else{
+                hboxBodyList.setVisible(false);
+            }
+            this.loadRoute = true;
+        }
+    }
+
+    public void loadListOfResponsesSelect(){
+        hboxResponseList.setVisible(true);
+        ArrayList<String> listResponseView = new ArrayList<String>();
+        for(int i = 0 ; i < this.api.getRoutes().get(indexOfRoute).getResponse().size() ; i++){
+            String AddResponseToList = this.api.getRoutes().get(indexOfRoute).getResponse().get(i).getStatus() + "   :   " + this.api.getRoutes().get(indexOfRoute).getResponse().get(i).getDescription();
+            listResponseView.add(AddResponseToList);
+        }
+        ObservableList<String> listOfRoutes = FXCollections.observableArrayList(listResponseView);
+        responsesRouteList.setItems(listOfRoutes);
+        responsesRouteList.getSelectionModel().selectFirst();
+    }
+
+    public void loadListOfBodySelect(){
+        hboxBodyList.setVisible(true);
+        ArrayList<String> listBodyView = new ArrayList<String>();
+
+        for(int i = 0 ; i < this.api.getRoutes().get(indexOfRoute).getBody().size() ; i++){
+            String AddBodyToList = this.api.getRoutes().get(indexOfRoute).getBody().get(i).getType() + "   :   " + this.api.getRoutes().get(indexOfRoute).getBody().get(i).getName();
+            listBodyView.add(AddBodyToList);
+        }
+
+        ObservableList<String> listOfBody = FXCollections.observableArrayList(listBodyView);
+        responsesBodyList.setItems(listOfBody);
+        responsesBodyList.getSelectionModel().selectFirst();
+    }
+
 
     @FXML
     void AddRoute(ActionEvent event){
-
-        System.out.println("Verification ADD ou LOAD : " + loadRoute);
-
         if(routeUrl.getText().isEmpty()) {
-            showAlert(Alert.AlertType.ERROR, (Stage) ((Node)event.getSource()).getScene().getWindow(), "Form Error!", "Please enter your description of API");
+            showAlert(Alert.AlertType.ERROR, (Stage) ((Node)event.getSource()).getScene().getWindow(), "Form Error!", "Please enter a route path");
             return;
         }
-        if(operationId.getText().isEmpty()) {
-            showAlert(Alert.AlertType.ERROR,(Stage) ((Node)event.getSource()).getScene().getWindow(), "Form Error!", "Please enter your email");
-            return;
-        }
-        if(routeDescription.getText().isEmpty()) {
-            showAlert(Alert.AlertType.ERROR, (Stage) ((Node)event.getSource()).getScene().getWindow(), "Form Error!", "Please enter a name");
-            return;
-        }
-
-        showAlert(Alert.AlertType.CONFIRMATION, (Stage) ((Node)event.getSource()).getScene().getWindow(), "Registration Successful!", "Vos informations ont bien été enregistré");
-
+        showAlert(Alert.AlertType.CONFIRMATION, (Stage) ((Node)event.getSource()).getScene().getWindow(), "Successful!", "Vos informations ont bien été enregistré");
         if(loadRoute == false){
             newRoute.setPath(routeUrl.getText());
             newRoute.setOperationId(operationId.getText());
             newRoute.setDescription(routeDescription.getText());
             newRoute.setMethod(methodList.getSelectionModel().getSelectedItem());
-
-            System.out.println("Ok route");
             this.api.getRoutes().add(newRoute);
-
-            System.out.println("Index de la route ajouté : " + api.getRoutes().indexOf(newRoute));
             this.setIndexOfRoute(api.getRoutes().indexOf(newRoute));
-
-            //trouver une methode pour connaitre l'index de la route ajouté
             this.loadRoute = true;
             AddQueryButton.setVisible(true);
             AddResponseButton.setVisible(true);
-
-            System.out.println("Fin save api  route : ");
         }else{
             this.api.getRoutes().get(indexOfRoute).setPath(routeUrl.getText());
             this.api.getRoutes().get(indexOfRoute).setOperationId(operationId.getText());
             this.api.getRoutes().get(indexOfRoute).setDescription(routeDescription.getText());
             this.api.getRoutes().get(indexOfRoute).setMethod(methodList.getSelectionModel().getSelectedItem());
         }
-
-
 
     }
 
@@ -205,13 +176,10 @@ public class RouteController {
         Parent apiView = (Parent) loader.load();
         Scene apiScene = new Scene(apiView);
         Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-
         QueryController controlR = loader.getController();
         controlR.setApi(api);
         controlR.setIndexOfRoute(this.getIndexOfRoute());
         controlR.setTextData();
-
-
         window.setScene(apiScene);
         window.show();
     }
@@ -222,14 +190,11 @@ public class RouteController {
         Parent apiView = (Parent) loader.load();
         Scene apiScene = new Scene(apiView);
         Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-
         ResponseController controlR = loader.getController();
         controlR.setApi(api);
         controlR.setIndexOfRoute(this.getIndexOfRoute());
-
         window.setScene(apiScene);
         window.show();
-
     }
 
     @FXML
@@ -238,14 +203,11 @@ public class RouteController {
         Parent bodyView = (Parent) loader.load();
         Scene bodyScene = new Scene(bodyView);
         Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-
         ObjectBodyController controlR = loader.getController();
         controlR.setApi(api);
         controlR.setIndexOfRoute(this.getIndexOfRoute());
-
         window.setScene(bodyScene);
         window.show();
-
     }
 
     @FXML
@@ -254,16 +216,9 @@ public class RouteController {
         Parent apiView = (Parent) loader.load();
         Scene apiScene = new Scene(apiView);
         Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-
-        System.out.println("Verificiation objet api dans Route controller : " + api.toString());
-
-
         ApiController controlR = loader.getController();
         controlR.setApi(api);
-
-        System.out.println("check data previous view " + controlR.getApi().toString());
         controlR.setTextData();
-
         window.setScene(apiScene);
         window.show();
 
@@ -272,18 +227,15 @@ public class RouteController {
     @FXML
     void editResponse(ActionEvent event)throws IOException{
         int selectedIndexResponse = responsesRouteList.getSelectionModel().getSelectedIndex();
-
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ResponseView.fxml"));
         Parent responseView = (Parent) loader.load();
         Scene responseScene = new Scene(responseView);
         Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-
         ResponseController controlR = loader.getController();
         controlR.setApi(api);
         controlR.setIndexOfRoute(indexOfRoute);
         controlR.setIndexResponse(selectedIndexResponse);
         controlR.setTextData();
-
         window.setScene(responseScene);
         window.show();
     }
@@ -291,40 +243,29 @@ public class RouteController {
     @FXML
     void deleteResponse(ActionEvent event)throws IOException{
         int selectedIndex = responsesRouteList.getSelectionModel().getSelectedIndex();
-
-        System.out.println("Selected INDEX : " + selectedIndex);
-
         this.api.getRoutes().get(indexOfRoute).getResponse().remove(selectedIndex);
-
         setTextData(true);
     }
 
     @FXML
     void deleteBody(ActionEvent event)throws IOException{
         int selectedIndex = responsesBodyList.getSelectionModel().getSelectedIndex();
-
-        System.out.println("Selected INDEX : " + selectedIndex);
-
         this.api.getRoutes().get(indexOfRoute).getBody().remove(selectedIndex);
-
         setTextData(true);
     }
 
     @FXML
     void editBody(ActionEvent event)throws IOException{
         int selectedIndexResponse = responsesBodyList.getSelectionModel().getSelectedIndex();
-
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ObjectBodyView.fxml"));
         Parent objectView = (Parent) loader.load();
         Scene objectScene = new Scene(objectView);
         Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-
         ObjectBodyController controlR = loader.getController();
         controlR.setApi(api);
         controlR.setIndexOfRoute(indexOfRoute);
         controlR.setIndexObject(selectedIndexResponse);
         controlR.setTextData();
-
         window.setScene(objectScene);
         window.show();
     }

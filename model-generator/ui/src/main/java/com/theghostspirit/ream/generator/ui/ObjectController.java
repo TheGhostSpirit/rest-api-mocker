@@ -11,12 +11,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 
 import javafx.scene.control.TextField;
 
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 import java.io.IOException;
 
@@ -37,20 +39,8 @@ public class ObjectController {
         this.indexObject = indexObject;
     }
 
-
-
     public int getIndexOfRoute() {
         return indexOfRoute;
-    }
-
-    public void setTextData(){
-        nameObject.setText(this.api.getRoutes().get(indexOfRoute).getQuery().get(indexObject).getName());
-        selectTypeObject.getSelectionModel().select(this.api.getRoutes().get(this.indexOfRoute).getQuery().get(indexObject).getType());
-        if(this.api.getRoutes().get(this.indexOfRoute).getQuery().get(indexObject).getRequired()){
-            requiredObject.setSelected(true);
-        }
-        this.loadObject = true;
-
     }
 
     public void setIndexOfRoute(int indexOfRoute) {
@@ -65,19 +55,31 @@ public class ObjectController {
 
     @FXML
     private CheckBox requiredObject;
-    //requiredObject
 
     @FXML
     public void initialize() {
-
         ObservableList<String> listOfType = FXCollections.observableArrayList("String","Int","Boolean","Float");
         selectTypeObject.setItems(listOfType);
+        selectTypeObject.getSelectionModel().selectFirst();
+    }
+
+    public void setTextData(){
+        nameObject.setText(this.api.getRoutes().get(indexOfRoute).getQuery().get(indexObject).getName());
+        selectTypeObject.getSelectionModel().select(this.api.getRoutes().get(this.indexOfRoute).getQuery().get(indexObject).getType());
+        if(this.api.getRoutes().get(this.indexOfRoute).getQuery().get(indexObject).getRequired()){
+            requiredObject.setSelected(true);
+        }
+        this.loadObject = true;
+
     }
 
     @FXML
     void addObject(ActionEvent event)throws IOException {
-
-
+        if(nameObject.getText().isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, (Stage) ((Node)event.getSource()).getScene().getWindow(), "Form Error!", "Please enter a name");
+            return;
+        }
+        showAlert(Alert.AlertType.CONFIRMATION, (Stage) ((Node)event.getSource()).getScene().getWindow(), "Successful!", "Vos informations ont bien été enregistré");
         if(this.loadObject == false){
             newObject.setName(nameObject.getText());
             newObject.setType(selectTypeObject.getSelectionModel().getSelectedItem());
@@ -86,18 +88,7 @@ public class ObjectController {
             }else{
                 newObject.setRequired(false);
             }
-
-
-            System.out.println("Index of route " + indexOfRoute);
-
-            System.out.println("Size of query parameter list : " +  this.api.getRoutes().get(indexOfRoute).getQuery().size());
-
             this.api.getRoutes().get(indexOfRoute).getQuery().add(newObject);
-
-            System.out.println("Size of query parameter list : " +  this.api.getRoutes().get(indexOfRoute).getQuery().size());
-
-            System.out.println("Index de la route ajouté : " + api.getRoutes().get(indexOfRoute).getQuery().indexOf(newObject));
-
             this.loadObject = true;
         }else{
             this.api.getRoutes().get(indexOfRoute).getQuery().get(this.indexObject).setName(nameObject.getText());
@@ -108,8 +99,6 @@ public class ObjectController {
                 this.api.getRoutes().get(indexOfRoute).getQuery().get(this.indexObject).setRequired(false);
             }
         }
-
-
     }
 
     @FXML
@@ -124,6 +113,15 @@ public class ObjectController {
         controlR.setTextData();
         window.setScene(queryScene);
         window.show();
+    }
+
+    private void showAlert(Alert.AlertType alertType, Window owner, String title, String message) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.initOwner(owner);
+        alert.show();
     }
 
 

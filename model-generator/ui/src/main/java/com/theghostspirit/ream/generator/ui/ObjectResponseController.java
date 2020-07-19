@@ -10,10 +10,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 import java.io.IOException;
 
@@ -42,15 +44,6 @@ public class ObjectResponseController {
         return indexOfRoute;
     }
 
-    public void setTextData(){
-        nameObject.setText(this.api.getRoutes().get(indexOfRoute).getResponse().get(indexResponse).getBody().get(indexObject).getName());
-        selectTypeObject.getSelectionModel().select(this.api.getRoutes().get(this.indexOfRoute).getResponse().get(indexResponse).getBody().get(indexObject).getType());
-        if(this.api.getRoutes().get(this.indexOfRoute).getResponse().get(indexResponse).getBody().get(indexObject).getRequired()){
-            requiredObject.setSelected(true);
-        }
-
-    }
-
     public void setIndexOfRoute(int indexOfRoute) {
         this.indexOfRoute = indexOfRoute;
     }
@@ -69,12 +62,26 @@ public class ObjectResponseController {
 
         ObservableList<String> listOfType = FXCollections.observableArrayList("String","Int","Boolean","Float");
         selectTypeObject.setItems(listOfType);
+        selectTypeObject.getSelectionModel().selectFirst();
+
+    }
+
+    public void setTextData(){
+        nameObject.setText(this.api.getRoutes().get(indexOfRoute).getResponse().get(indexResponse).getBody().get(indexObject).getName());
+        selectTypeObject.getSelectionModel().select(this.api.getRoutes().get(this.indexOfRoute).getResponse().get(indexResponse).getBody().get(indexObject).getType());
+        if(this.api.getRoutes().get(this.indexOfRoute).getResponse().get(indexResponse).getBody().get(indexObject).getRequired()){
+            requiredObject.setSelected(true);
+        }
+
     }
 
     @FXML
     void addObject(ActionEvent event)throws IOException {
-
-
+        if(nameObject.getText().isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, (Stage) ((Node)event.getSource()).getScene().getWindow(), "Form Error!", "Please enter a name");
+            return;
+        }
+        showAlert(Alert.AlertType.CONFIRMATION, (Stage) ((Node)event.getSource()).getScene().getWindow(), "Successful!", "Vos informations ont bien été enregistré");
         if(this.loadObject == false){
             newObject.setName(nameObject.getText());
             newObject.setType(selectTypeObject.getSelectionModel().getSelectedItem());
@@ -83,13 +90,7 @@ public class ObjectResponseController {
             }else{
                 newObject.setRequired(false);
             }
-
-            System.out.println("Index of route " + indexOfRoute);
-
-            System.out.println("Size of query parameter list : " +  this.api.getRoutes().get(indexOfRoute).getResponse().get(indexResponse).getBody().size());
-
             this.api.getRoutes().get(indexOfRoute).getResponse().get(indexResponse).getBody().add(newObject);
-
             this.loadObject = true;
         }else{
             this.api.getRoutes().get(indexOfRoute).getResponse().get(indexResponse).getBody().get(this.indexObject).setName(nameObject.getText());
@@ -100,8 +101,6 @@ public class ObjectResponseController {
                 this.api.getRoutes().get(indexOfRoute).getResponse().get(indexResponse).getBody().get(this.indexObject).setRequired(false);
             }
         }
-
-
     }
 
     @FXML
@@ -117,5 +116,14 @@ public class ObjectResponseController {
         controlR.setTextData();
         window.setScene(responseScene);
         window.show();
+    }
+
+    private void showAlert(Alert.AlertType alertType, Window owner, String title, String message) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.initOwner(owner);
+        alert.show();
     }
 }

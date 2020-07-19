@@ -41,15 +41,6 @@ public class MenuController {
 
     @FXML
     void loadApiScene(ActionEvent event)throws IOException {
-        /*
-        Parent apiView = FXMLLoader.load(getClass().getResource("/ApiView.fxml"));
-        Scene apiScene = new Scene(apiView);
-
-        Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-
-        window.setScene(apiScene);
-        window.show();
-        */
         this.api = new Api();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ApiView.fxml"));
         Parent apiView = (Parent) loader.load();
@@ -66,9 +57,7 @@ public class MenuController {
     void loadModelScene(ActionEvent event)throws IOException {
         Parent apiView = FXMLLoader.load(getClass().getResource("/ModelView.fxml"));
         Scene apiScene = new Scene(apiView);
-
         Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-
         window.setScene(apiScene);
         window.show();
     }

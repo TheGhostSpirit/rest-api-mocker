@@ -37,13 +37,11 @@ public class QueryController {
         this.indexOfRoute = indexOfRoute;
     }
 
-
     @FXML
     private ComboBox<String> listObjectCombo;
 
     @FXML
     private HBox HboxListObjectQuery;
-
 
     @FXML
     public void initialize() {
@@ -52,31 +50,22 @@ public class QueryController {
 
     public void setTextData(){
         if(this.api.getRoutes().get(indexOfRoute).getQuery().isEmpty() == false){
-
             HboxListObjectQuery.setVisible(true);
             ArrayList<String> listObjectView = new ArrayList<String>();
-
             for(int i = 0 ; i < this.api.getRoutes().get(indexOfRoute).getQuery().size() ; i++){
                 String AddObjectToList = this.api.getRoutes().get(indexOfRoute).getQuery().get(i).getType() + "   :   " + this.api.getRoutes().get(indexOfRoute).getQuery().get(i).getName();
                 listObjectView.add(AddObjectToList);
             }
-
             ObservableList<String> listOfObjects = FXCollections.observableArrayList(listObjectView);
             listObjectCombo.setItems(listOfObjects);
             listObjectCombo.getSelectionModel().selectFirst();
         }else{
             HboxListObjectQuery.setVisible(false);
         }
-
     }
-
-
 
     @FXML
     void loadObjectScene(ActionEvent event)throws IOException {
-
-        System.out.println("Verification du path de la route créer dans le query controller : " + this.api.getRoutes().get(indexOfRoute).getPath());
-
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ObjectView.fxml"));
         Parent ObjectView = (Parent) loader.load();
         Scene ObjectScene = new Scene(ObjectView);
@@ -104,40 +93,24 @@ public class QueryController {
 
     @FXML
     void deleteObject (ActionEvent event)throws IOException {
-
         int selectedIndex = listObjectCombo.getSelectionModel().getSelectedIndex();
-
-        System.out.println("Selected INDEX : " + selectedIndex);
-
         this.api.getRoutes().get(indexOfRoute).getQuery().remove(selectedIndex);
-
         setTextData();
-
     }
 
     @FXML
     void editObject (ActionEvent event)throws IOException {
-
         int selectedIndex = listObjectCombo.getSelectionModel().getSelectedIndex();
-
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ObjectView.fxml"));
         Parent apiView = (Parent) loader.load();
         Scene apiScene = new Scene(apiView);
         Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-
         ObjectController controlR = loader.getController();
         controlR.setApi(api);
         controlR.setIndexOfRoute(indexOfRoute);
         controlR.setIndexObject(selectedIndex);
         controlR.setTextData();
-
         window.setScene(apiScene);
         window.show();
-
     }
-
-
-
-
-
 }

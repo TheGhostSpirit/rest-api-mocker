@@ -27,7 +27,6 @@ public class ExportModel {
             try {
                 File myObj = new File(path);
                 if (myObj.createNewFile()) {
-                    System.out.println("File created: " + myObj.getName());
                     writeJsonModel(jsonModel,path);
 
                 } else {
@@ -60,7 +59,6 @@ public class ExportModel {
             try {
                 File myObj = new File(path);
                 if (myObj.createNewFile()) {
-                    System.out.println("File created: " + myObj.getName());
                     writeJsonModel(yaml,path);
 
                 } else {

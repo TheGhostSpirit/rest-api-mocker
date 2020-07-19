@@ -19,7 +19,6 @@ import javafx.scene.layout.HBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -76,7 +75,6 @@ public class ApiController {
     public void setTextData(){
         newRoutesButton.setVisible(true);
         apiName.setText(this.api.getName());
-        System.out.println("VERIFICATION IMPRORT : " + this.api.getName());
         apiDescription.setText(this.api.getDescription());
         serverAddress.setText(this.api.getServerPath());
         contactName.setText(this.api.getContact().getName());
@@ -88,18 +86,15 @@ public class ApiController {
         }else{
             HboxListRoutes.setVisible(false);
         }
-
     }
 
     public void loadListOfRoutesSelect(){
         HboxListRoutes.setVisible(true);
         ArrayList<String> listRouteView = new ArrayList<String>();
-
         for(int i = 0 ; i < this.api.getRoutes().size() ; i++){
             String AddRouteToList = this.api.getRoutes().get(i).getMethod() + "   : " + this.api.getRoutes().get(i).getPath();
             listRouteView.add(AddRouteToList);
         }
-
         ObservableList<String> listOfRoutes = FXCollections.observableArrayList(listRouteView);
         listRoutesApi.setItems(listOfRoutes);
         listRoutesApi.getSelectionModel().selectFirst();
@@ -107,8 +102,6 @@ public class ApiController {
 
     @FXML
     void saveApi(ActionEvent event){
-
-
         if(apiDescription.getText().isEmpty()) {
             showAlert(Alert.AlertType.ERROR, (Stage) ((Node)event.getSource()).getScene().getWindow(), "Form Error!", "Please enter a name Api");
             return;
@@ -129,7 +122,10 @@ public class ApiController {
             showAlert(Alert.AlertType.ERROR, (Stage) ((Node)event.getSource()).getScene().getWindow(), "Form Error!", "Please enter a name");
             return;
         }
-
+        if(licenseUrl.getText().isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, (Stage) ((Node)event.getSource()).getScene().getWindow(), "Form Error!", "Please enter a license");
+            return;
+        }
         showAlert(Alert.AlertType.CONFIRMATION, (Stage) ((Node)event.getSource()).getScene().getWindow(), "Registration Successful!", "Vos informations ont bien été enregistré");
 
         api.setName(apiName.getText());
@@ -139,8 +135,6 @@ public class ApiController {
         api.getContact().setEmail(contactEmail.getText());
         api.setLicense(licenseUrl.getText());
         newRoutesButton.setVisible(true);
-
-        System.out.println(api.toString());
 
     }
 
@@ -159,11 +153,9 @@ public class ApiController {
         Parent apiView = (Parent) loader.load();
         Scene apiScene = new Scene(apiView);
         Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-
         RouteController controlR = loader.getController();
         controlR.setApi(api);
         controlR.setTextData(false);
-
         window.setScene(apiScene);
         window.show();
 
@@ -171,30 +163,20 @@ public class ApiController {
 
     @FXML
     void exportThisApiJSON(ActionEvent event) throws IOException {
-
         Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
         DirectoryChooser directoryChooser = new DirectoryChooser();
-        //directoryChooser.setInitialDirectory(new File("src"));
         File selectedDirectory = directoryChooser.showDialog(window);
-
         String directoryPath = selectedDirectory.getAbsolutePath() + "/" + this.api.getName() + ".json";
-
-
         ExportModel exportModel = new ExportModel();
         exportModel.getJsonModel(this.api,directoryPath);
     }
 
     @FXML
     void exportThisApiYAML(ActionEvent event) throws IOException {
-
         Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
         DirectoryChooser directoryChooser = new DirectoryChooser();
-        //directoryChooser.setInitialDirectory(new File("src"));
         File selectedDirectory = directoryChooser.showDialog(window);
-
         String directoryPath = selectedDirectory.getAbsolutePath() + "/" + this.api.getName() + ".yaml";
-
-
         ExportModel exportModel = new ExportModel();
         exportModel.getYamlModel(this.api,directoryPath);
     }
@@ -212,33 +194,23 @@ public class ApiController {
 
     @FXML
     void deleteRoute (ActionEvent event)throws IOException {
-
         int selectedIndex = listRoutesApi.getSelectionModel().getSelectedIndex();
-
-        System.out.println("Selected INDEX : " + selectedIndex);
-
         this.api.getRoutes().remove(this.api.getRoutes().get(selectedIndex));
-
         setTextData();
     }
 
     @FXML
     void editRoute (ActionEvent event)throws IOException {
-
         int selectedIndex = listRoutesApi.getSelectionModel().getSelectedIndex();
-
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/RouteView.fxml"));
         Parent apiView = (Parent) loader.load();
         Scene apiScene = new Scene(apiView);
         Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-
         RouteController controlR = loader.getController();
         controlR.setApi(api);
         controlR.setTextData(true);
         controlR.setIndexOfRoute(selectedIndex);
-
         window.setScene(apiScene);
         window.show();
     }
-
 }

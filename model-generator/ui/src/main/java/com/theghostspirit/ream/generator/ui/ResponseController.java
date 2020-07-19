@@ -16,7 +16,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-
 import javafx.scene.control.TextField;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -65,7 +64,6 @@ public class ResponseController {
     @FXML
     private Button AddObjectButton;
 
-
     @FXML
     public void initialize() {
         HboxListObjectResponse.setVisible(false);
@@ -74,39 +72,22 @@ public class ResponseController {
 
     @FXML
     void addResponse(ActionEvent event)throws IOException {
-
         if(statusCode.getText().isEmpty()) {
             showAlert(Alert.AlertType.ERROR, (Stage) ((Node)event.getSource()).getScene().getWindow(), "Form Error!", "Please enter a status code");
             return;
         }
-        if(descriptionResponse.getText().isEmpty()) {
-            showAlert(Alert.AlertType.ERROR,(Stage) ((Node)event.getSource()).getScene().getWindow(), "Form Error!", "Please enter a description");
-            return;
-        }
-
         showAlert(Alert.AlertType.CONFIRMATION, (Stage) ((Node)event.getSource()).getScene().getWindow(), "Registration Successful!", "Vos informations ont bien été enregistré");
-
         if(loadResponse == false){
             response.setStatus(statusCode.getText());
             response.setDescription(descriptionResponse.getText());
-
-            System.out.println("Index de la route dans laquelle ajouté la response : " + indexOfRoute);
-
-            System.out.println("Description de la route verif dans le response :" + this.api.getRoutes().get(this.indexOfRoute).getDescription());
-
             api.getRoutes().get(indexOfRoute).getResponse().add(response);
-
             indexResponse = api.getRoutes().get(indexOfRoute).getResponse().indexOf(response);
-
             loadResponse = true;
             AddObjectButton.setVisible(true);
         }else{
-
             this.api.getRoutes().get(indexOfRoute).getResponse().get(indexResponse).setStatus(statusCode.getText());
             this.api.getRoutes().get(indexOfRoute).getResponse().get(indexResponse).setDescription(descriptionResponse.getText());
         }
-
-
     }
     public void setTextData(){
 
@@ -114,29 +95,19 @@ public class ResponseController {
         AddObjectButton.setVisible(true);
         statusCode.setText(this.api.getRoutes().get(this.indexOfRoute).getResponse().get(this.indexResponse).getStatus());
         descriptionResponse.setText(this.api.getRoutes().get(this.indexOfRoute).getResponse().get(this.indexResponse).getDescription());
-
-        System.out.println("Edition d'une reponse :");
-        System.out.println("Taille du nombre d'object : " + this.api.getRoutes().get(indexOfRoute).getResponse().get(indexResponse).getBody().size());
         if(this.api.getRoutes().get(indexOfRoute).getResponse().get(indexResponse).getBody().isEmpty() == false){
-            System.out.println("Dans la condition");
-
-
             HboxListObjectResponse.setVisible(true);
             ArrayList<String> listObjectView = new ArrayList<String>();
-
             for(int i = 0 ; i < this.api.getRoutes().get(indexOfRoute).getResponse().get(indexResponse).getBody().size() ; i++){
                 String AddObjectToList = this.api.getRoutes().get(indexOfRoute).getResponse().get(indexResponse).getBody().get(i).getType() + "   :   " + this.api.getRoutes().get(indexOfRoute).getResponse().get(indexResponse).getBody().get(i).getName();
                 listObjectView.add(AddObjectToList);
             }
-
             ObservableList<String> listOfObjects = FXCollections.observableArrayList(listObjectView);
             listObjectCombo.setItems(listOfObjects);
             listObjectCombo.getSelectionModel().selectFirst();
         }else{
             HboxListObjectResponse.setVisible(false);
         }
-
-
     }
 
     private void showAlert(Alert.AlertType alertType, Window owner, String title, String message) {
@@ -156,7 +127,6 @@ public class ResponseController {
         Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
         ObjectResponseController controlR = loader.getController();
         controlR.setApi(api);
-
         window.setScene(apiScene);
         window.show();
     }
@@ -177,37 +147,25 @@ public class ResponseController {
 
     @FXML
     void deleteObject (ActionEvent event)throws IOException {
-
         int selectedIndex = listObjectCombo.getSelectionModel().getSelectedIndex();
-
-        System.out.println("Selected INDEX : " + selectedIndex);
-
         this.api.getRoutes().get(indexOfRoute).getResponse().get(indexResponse).getBody().remove(selectedIndex);
-
         setTextData();
-
     }
 
     @FXML
     void editObject (ActionEvent event)throws IOException {
-
         int selectedIndex = listObjectCombo.getSelectionModel().getSelectedIndex();
-
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ObjectResponseView.fxml"));
         Parent apiView = (Parent) loader.load();
         Scene apiScene = new Scene(apiView);
         Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-
         ObjectResponseController controlR = loader.getController();
         controlR.setApi(api);
         controlR.setIndexOfRoute(indexOfRoute);
         controlR.setIndexResponse(indexResponse);
         controlR.setIndexObject(selectedIndex);
         controlR.setTextData();
-
         window.setScene(apiScene);
         window.show();
-
     }
-
 }
