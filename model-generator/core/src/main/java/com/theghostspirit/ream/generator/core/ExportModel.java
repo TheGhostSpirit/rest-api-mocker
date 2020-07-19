@@ -19,7 +19,7 @@ public class ExportModel {
 
         ObjectMapper map = new ObjectMapper();
         apiWrapper.setApi(api);
-        apiWrapper.setVersion("1.0.0");
+        apiWrapper.setVersion("1.0");
         try{
             String jsonModel = map.writeValueAsString(apiWrapper);
             System.out.println(jsonModel);
@@ -51,7 +51,7 @@ public class ExportModel {
 
         com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper(new YAMLFactory());
         apiWrapper.setApi(api);
-        apiWrapper.setVersion("1.0.0");
+        apiWrapper.setVersion("1.0");
 
         try{
             String yaml = mapper.writeValueAsString(apiWrapper);

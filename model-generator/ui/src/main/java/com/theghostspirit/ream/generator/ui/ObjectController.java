@@ -1,7 +1,6 @@
 package com.theghostspirit.ream.generator.ui;
 
 import com.theghostspirit.ream.generator.core.Api;
-import com.theghostspirit.ream.generator.core.FieldParameter;
 import com.theghostspirit.ream.generator.core.Query;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -35,15 +34,11 @@ public class ObjectController {
         this.api = api;
     }
 
-    public void setIndexObject(int indexObject) {
+    void setIndexObject(int indexObject) {
         this.indexObject = indexObject;
     }
 
-    public int getIndexOfRoute() {
-        return indexOfRoute;
-    }
-
-    public void setIndexOfRoute(int indexOfRoute) {
+    void setIndexOfRoute(int indexOfRoute) {
         this.indexOfRoute = indexOfRoute;
     }
 
@@ -63,24 +58,23 @@ public class ObjectController {
         selectTypeObject.getSelectionModel().selectFirst();
     }
 
-    public void setTextData(){
+    void setTextData(){
         nameObject.setText(this.api.getRoutes().get(indexOfRoute).getQuery().get(indexObject).getName());
         selectTypeObject.getSelectionModel().select(this.api.getRoutes().get(this.indexOfRoute).getQuery().get(indexObject).getType());
         if(this.api.getRoutes().get(this.indexOfRoute).getQuery().get(indexObject).getRequired()){
             requiredObject.setSelected(true);
         }
         this.loadObject = true;
-
     }
 
     @FXML
-    void addObject(ActionEvent event)throws IOException {
+    void addObject(ActionEvent event){
         if(nameObject.getText().isEmpty()) {
-            showAlert(Alert.AlertType.ERROR, (Stage) ((Node)event.getSource()).getScene().getWindow(), "Form Error!", "Please enter a name");
+            showAlert(Alert.AlertType.ERROR,((Node)event.getSource()).getScene().getWindow(), "Form Error!", "Please enter a name");
             return;
         }
-        showAlert(Alert.AlertType.CONFIRMATION, (Stage) ((Node)event.getSource()).getScene().getWindow(), "Successful!", "Vos informations ont bien été enregistré");
-        if(this.loadObject == false){
+        showAlert(Alert.AlertType.CONFIRMATION,((Node)event.getSource()).getScene().getWindow(), "Successful!", "Vos informations ont bien été enregistré");
+        if(!this.loadObject){
             newObject.setName(nameObject.getText());
             newObject.setType(selectTypeObject.getSelectionModel().getSelectedItem());
             if(requiredObject.isSelected()){
@@ -104,7 +98,7 @@ public class ObjectController {
     @FXML
     void loadPreviousScene (ActionEvent event)throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/QueryView.fxml"));
-        Parent queryView = (Parent) loader.load();
+        Parent queryView = loader.load();
         Scene queryScene = new Scene(queryView);
         Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
         QueryController controlR = loader.getController();

@@ -31,20 +31,16 @@ public class ObjectResponseController {
         this.api = api;
     }
 
-    public void setIndexObject(int indexObject) {
+    void setIndexObject(int indexObject) {
         this.indexObject = indexObject;
     }
 
 
-    public void setIndexResponse(int indexResponse) {
+    void setIndexResponse(int indexResponse) {
         this.indexResponse = indexResponse;
     }
 
-    public int getIndexOfRoute() {
-        return indexOfRoute;
-    }
-
-    public void setIndexOfRoute(int indexOfRoute) {
+    void setIndexOfRoute(int indexOfRoute) {
         this.indexOfRoute = indexOfRoute;
     }
 
@@ -66,7 +62,8 @@ public class ObjectResponseController {
 
     }
 
-    public void setTextData(){
+    void setTextData(){
+        this.loadObject = true;
         nameObject.setText(this.api.getRoutes().get(indexOfRoute).getResponse().get(indexResponse).getBody().get(indexObject).getName());
         selectTypeObject.getSelectionModel().select(this.api.getRoutes().get(this.indexOfRoute).getResponse().get(indexResponse).getBody().get(indexObject).getType());
         if(this.api.getRoutes().get(this.indexOfRoute).getResponse().get(indexResponse).getBody().get(indexObject).getRequired()){
@@ -76,13 +73,13 @@ public class ObjectResponseController {
     }
 
     @FXML
-    void addObject(ActionEvent event)throws IOException {
+    void addObject(ActionEvent event){
         if(nameObject.getText().isEmpty()) {
-            showAlert(Alert.AlertType.ERROR, (Stage) ((Node)event.getSource()).getScene().getWindow(), "Form Error!", "Please enter a name");
+            showAlert(Alert.AlertType.ERROR,((Node)event.getSource()).getScene().getWindow(), "Form Error!", "Please enter a name");
             return;
         }
-        showAlert(Alert.AlertType.CONFIRMATION, (Stage) ((Node)event.getSource()).getScene().getWindow(), "Successful!", "Vos informations ont bien été enregistré");
-        if(this.loadObject == false){
+        showAlert(Alert.AlertType.CONFIRMATION,((Node)event.getSource()).getScene().getWindow(), "Successful!", "Vos informations ont bien été enregistré");
+        if(!this.loadObject){
             newObject.setName(nameObject.getText());
             newObject.setType(selectTypeObject.getSelectionModel().getSelectedItem());
             if(requiredObject.isSelected()){
@@ -106,7 +103,7 @@ public class ObjectResponseController {
     @FXML
     void loadPreviousScene (ActionEvent event)throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ResponseView.fxml"));
-        Parent responseView = (Parent) loader.load();
+        Parent responseView = loader.load();
         Scene responseScene = new Scene(responseView);
         Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
         ResponseController controlR = loader.getController();

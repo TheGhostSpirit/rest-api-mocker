@@ -1,7 +1,6 @@
 package com.theghostspirit.ream.generator.ui;
 
 import com.theghostspirit.ream.generator.core.Api;
-import com.theghostspirit.ream.generator.core.Contact;
 import com.theghostspirit.ream.generator.core.ExportModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -57,7 +56,7 @@ public class ApiController {
     private TextField licenseUrl;
 
     @FXML
-    private Button newRoutes;
+    private TextField version;
 
     @FXML
     private HBox HboxListRoutes;
@@ -75,7 +74,7 @@ public class ApiController {
     }
 
 
-    public void setTextData(){
+    void setTextData(){
         newRoutesButton.setVisible(true);
         apiName.setText(this.api.getName());
         apiDescription.setText(this.api.getDescription());
@@ -84,16 +83,16 @@ public class ApiController {
         contactEmail.setText(this.api.getContact().getEmail());
         licenseUrl.setText(this.api.getLicense());
 
-        if(this.api.getRoutes().isEmpty() == false){
+        if(!this.api.getRoutes().isEmpty()){
             loadListOfRoutesSelect();
         }else{
             HboxListRoutes.setVisible(false);
         }
     }
 
-    public void loadListOfRoutesSelect(){
+    private void loadListOfRoutesSelect(){
         HboxListRoutes.setVisible(true);
-        ArrayList<String> listRouteView = new ArrayList<String>();
+        ArrayList<String> listRouteView = new ArrayList<>();
         for(int i = 0 ; i < this.api.getRoutes().size() ; i++){
             String AddRouteToList = this.api.getRoutes().get(i).getMethod() + "   : " + this.api.getRoutes().get(i).getPath();
             listRouteView.add(AddRouteToList);
@@ -106,34 +105,38 @@ public class ApiController {
     @FXML
     void saveApi(ActionEvent event){
         if(apiDescription.getText().isEmpty()) {
-            showAlert(Alert.AlertType.ERROR, (Stage) ((Node)event.getSource()).getScene().getWindow(), "Form Error!", "Please enter a name Api");
+            showAlert(Alert.AlertType.ERROR,((Node)event.getSource()).getScene().getWindow(), "Form Error!", "Please enter a name Api");
             return;
         }
         if(apiDescription.getText().isEmpty()) {
-            showAlert(Alert.AlertType.ERROR, (Stage) ((Node)event.getSource()).getScene().getWindow(), "Form Error!", "Please enter your description of API");
+            showAlert(Alert.AlertType.ERROR,((Node)event.getSource()).getScene().getWindow(), "Form Error!", "Please enter your description of API");
             return;
         }
         if(serverAddress.getText().isEmpty()) {
-            showAlert(Alert.AlertType.ERROR, (Stage) ((Node)event.getSource()).getScene().getWindow(), "Form Error!", "Please enter a server address");
+            showAlert(Alert.AlertType.ERROR,((Node)event.getSource()).getScene().getWindow(), "Form Error!", "Please enter a server address");
             return;
         }
         if(contactName.getText().isEmpty()) {
-            showAlert(Alert.AlertType.ERROR, (Stage) ((Node)event.getSource()).getScene().getWindow(), "Form Error!", "Please enter a name");
+            showAlert(Alert.AlertType.ERROR,((Node)event.getSource()).getScene().getWindow(), "Form Error!", "Please enter a name");
             return;
         }
         if(contactEmail.getText().isEmpty()) {
-            showAlert(Alert.AlertType.ERROR,(Stage) ((Node)event.getSource()).getScene().getWindow(), "Form Error!", "Please enter your email");
+            showAlert(Alert.AlertType.ERROR,((Node)event.getSource()).getScene().getWindow(), "Form Error!", "Please enter your email");
             return;
         }
         if(!isValidEmailAddress(contactEmail.getText())){
-            showAlert(Alert.AlertType.ERROR,(Stage) ((Node)event.getSource()).getScene().getWindow(), "Form Error!", "Please enter a valid email");
+            showAlert(Alert.AlertType.ERROR,((Node)event.getSource()).getScene().getWindow(), "Form Error!", "Please enter a valid email");
             return;
         }
         if(licenseUrl.getText().isEmpty()) {
-            showAlert(Alert.AlertType.ERROR, (Stage) ((Node)event.getSource()).getScene().getWindow(), "Form Error!", "Please enter a license");
+            showAlert(Alert.AlertType.ERROR,((Node)event.getSource()).getScene().getWindow(), "Form Error!", "Please enter a license");
             return;
         }
-        showAlert(Alert.AlertType.CONFIRMATION, (Stage) ((Node)event.getSource()).getScene().getWindow(), "Registration Successful!", "Vos informations ont bien été enregistré");
+        if(version.getText().isEmpty()) {
+            showAlert(Alert.AlertType.ERROR,((Node)event.getSource()).getScene().getWindow(), "Form Error!", "Please enter a version");
+            return;
+        }
+        showAlert(Alert.AlertType.CONFIRMATION,((Node)event.getSource()).getScene().getWindow(), "Registration Successful!", "Vos informations ont bien été enregistré");
 
         api.setName(apiName.getText());
         api.setDescription(apiDescription.getText());
@@ -141,6 +144,7 @@ public class ApiController {
         api.getContact().setName(contactName.getText());
         api.getContact().setEmail(contactEmail.getText());
         api.setLicense(licenseUrl.getText());
+        api.setVersion(version.getText());
         newRoutesButton.setVisible(true);
 
     }
@@ -157,7 +161,7 @@ public class ApiController {
     @FXML
     void loadRouteView(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/RouteView.fxml"));
-        Parent apiView = (Parent) loader.load();
+        Parent apiView = loader.load();
         Scene apiScene = new Scene(apiView);
         Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
         RouteController controlR = loader.getController();
@@ -169,7 +173,7 @@ public class ApiController {
     }
 
     @FXML
-    void exportThisApiJSON(ActionEvent event) throws IOException {
+    void exportThisApiJSON(ActionEvent event){
         Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
         DirectoryChooser directoryChooser = new DirectoryChooser();
         File selectedDirectory = directoryChooser.showDialog(window);
@@ -179,7 +183,7 @@ public class ApiController {
     }
 
     @FXML
-    void exportThisApiYAML(ActionEvent event) throws IOException {
+    void exportThisApiYAML(ActionEvent event){
         Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
         DirectoryChooser directoryChooser = new DirectoryChooser();
         File selectedDirectory = directoryChooser.showDialog(window);
@@ -191,16 +195,15 @@ public class ApiController {
     @FXML
     void loadPreviousScene (ActionEvent event)throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/MenuView.fxml"));
-        Parent menuView = (Parent) loader.load();
+        Parent menuView = loader.load();
         Scene menuScene = new Scene(menuView);
         Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        MenuController controlR = loader.getController();
         window.setScene(menuScene);
         window.show();
     }
 
     @FXML
-    void deleteRoute (ActionEvent event)throws IOException {
+    void deleteRoute (ActionEvent event){
         int selectedIndex = listRoutesApi.getSelectionModel().getSelectedIndex();
         this.api.getRoutes().remove(this.api.getRoutes().get(selectedIndex));
         setTextData();
@@ -210,7 +213,7 @@ public class ApiController {
     void editRoute (ActionEvent event)throws IOException {
         int selectedIndex = listRoutesApi.getSelectionModel().getSelectedIndex();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/RouteView.fxml"));
-        Parent apiView = (Parent) loader.load();
+        Parent apiView = loader.load();
         Scene apiScene = new Scene(apiView);
         Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
         RouteController controlR = loader.getController();

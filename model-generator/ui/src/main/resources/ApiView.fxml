@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="558.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.theghostspirit.ream.generator.ui.ApiController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="596.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.theghostspirit.ream.generator.ui.ApiController">
    <children>
       <HBox prefHeight="54.0" prefWidth="600.0">
          <children>
@@ -49,6 +49,12 @@
          </VBox.margin>
       </Label>
       <TextField fx:id="licenseUrl" promptText="License Url" />
+      <Label text="Version">
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin>
+      </Label>
+      <TextField fx:id="version" promptText="Version" />
       <Button fx:id="newRoutesButton" mnemonicParsing="false" onAction="#loadRouteView" prefHeight="25.0" prefWidth="200.0" text="New route">
          <VBox.margin>
             <Insets left="200.0" top="30.0" />

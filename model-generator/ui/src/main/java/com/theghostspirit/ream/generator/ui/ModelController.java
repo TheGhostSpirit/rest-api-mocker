@@ -31,10 +31,7 @@ public class ModelController {
         window.show();
     }
 
-    @FXML
-    void addModel(ActionEvent event) throws IOException {
 
-    }
 
 
 }
