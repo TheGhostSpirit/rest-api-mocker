@@ -8,8 +8,9 @@ public class Route {
     private String method;
     private String description;
     private String operationId;
-    private Query query = new Query();
-    private ArrayList<Response> responses = new ArrayList<Response>();
+    private ArrayList<Query> query = new ArrayList<Query>();
+    private ArrayList<Response> response = new ArrayList<Response>();
+    private ArrayList<Query> body = new ArrayList<Query>();
 
     public String getPath() {
         return path;
@@ -43,19 +44,28 @@ public class Route {
         this.operationId = operationId;
     }
 
-    public Query getQuery() {
+
+    public ArrayList<Query> getQuery() {
         return query;
     }
 
-    public void setQuery(Query query) {
+    public void setQuery(ArrayList<Query> query) {
         this.query = query;
     }
 
-    public ArrayList<Response> getResponses() {
-        return responses;
+    public ArrayList<Response> getResponse() {
+        return response;
     }
 
-    public void setResponses(ArrayList<Response> responses) {
-        this.responses = responses;
+    public void setResponse(ArrayList<Response> responses) {
+        this.response = responses;
+    }
+
+    public ArrayList<Query> getBody() {
+        return body;
+    }
+
+    public void setBody(ArrayList<Query> body) {
+        this.body = body;
     }
 }

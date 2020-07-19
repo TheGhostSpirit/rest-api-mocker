@@ -2,6 +2,7 @@ package com.theghostspirit.ream.generator.ui;
 
 import com.theghostspirit.ream.generator.core.Api;
 import com.theghostspirit.ream.generator.core.FieldParameter;
+import com.theghostspirit.ream.generator.core.Query;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -24,7 +25,7 @@ public class ObjectController {
 
     private Api api;
     private int indexOfRoute;
-    private FieldParameter newObject = new FieldParameter();
+    private Query newObject = new Query();
     private boolean loadObject = false;
     private int indexObject;
 
@@ -43,9 +44,9 @@ public class ObjectController {
     }
 
     public void setTextData(){
-        nameObject.setText(this.api.getRoutes().get(indexOfRoute).getQuery().getFieldParameterList().get(indexObject).getName());
-        selectTypeObject.getSelectionModel().select(this.api.getRoutes().get(this.indexOfRoute).getQuery().getFieldParameterList().get(indexObject).getType());
-        if(this.api.getRoutes().get(this.indexOfRoute).getQuery().getFieldParameterList().get(indexObject).getRequired()){
+        nameObject.setText(this.api.getRoutes().get(indexOfRoute).getQuery().get(indexObject).getName());
+        selectTypeObject.getSelectionModel().select(this.api.getRoutes().get(this.indexOfRoute).getQuery().get(indexObject).getType());
+        if(this.api.getRoutes().get(this.indexOfRoute).getQuery().get(indexObject).getRequired()){
             requiredObject.setSelected(true);
         }
         this.loadObject = true;
@@ -89,22 +90,22 @@ public class ObjectController {
 
             System.out.println("Index of route " + indexOfRoute);
 
-            System.out.println("Size of query parameter list : " +  this.api.getRoutes().get(indexOfRoute).getQuery().getFieldParameterList().size());
+            System.out.println("Size of query parameter list : " +  this.api.getRoutes().get(indexOfRoute).getQuery().size());
 
-            this.api.getRoutes().get(indexOfRoute).getQuery().getFieldParameterList().add(newObject);
+            this.api.getRoutes().get(indexOfRoute).getQuery().add(newObject);
 
-            System.out.println("Size of query parameter list : " +  this.api.getRoutes().get(indexOfRoute).getQuery().getFieldParameterList().size());
+            System.out.println("Size of query parameter list : " +  this.api.getRoutes().get(indexOfRoute).getQuery().size());
 
-            System.out.println("Index de la route ajouté : " + api.getRoutes().get(indexOfRoute).getQuery().getFieldParameterList().indexOf(newObject));
+            System.out.println("Index de la route ajouté : " + api.getRoutes().get(indexOfRoute).getQuery().indexOf(newObject));
 
             this.loadObject = true;
         }else{
-            this.api.getRoutes().get(indexOfRoute).getQuery().getFieldParameterList().get(this.indexObject).setName(nameObject.getText());
-            this.api.getRoutes().get(indexOfRoute).getQuery().getFieldParameterList().get(this.indexObject).setType(selectTypeObject.getSelectionModel().getSelectedItem());
+            this.api.getRoutes().get(indexOfRoute).getQuery().get(this.indexObject).setName(nameObject.getText());
+            this.api.getRoutes().get(indexOfRoute).getQuery().get(this.indexObject).setType(selectTypeObject.getSelectionModel().getSelectedItem());
             if(requiredObject.isSelected()) {
-                this.api.getRoutes().get(indexOfRoute).getQuery().getFieldParameterList().get(this.indexObject).setRequired(true);
+                this.api.getRoutes().get(indexOfRoute).getQuery().get(this.indexObject).setRequired(true);
             }else{
-                this.api.getRoutes().get(indexOfRoute).getQuery().getFieldParameterList().get(this.indexObject).setRequired(false);
+                this.api.getRoutes().get(indexOfRoute).getQuery().get(this.indexObject).setRequired(false);
             }
         }
 

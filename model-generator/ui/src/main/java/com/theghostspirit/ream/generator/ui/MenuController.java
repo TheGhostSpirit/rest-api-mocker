@@ -94,6 +94,13 @@ public class MenuController {
 
     }
 
+    @FXML
+    void callPluginFunction(ActionEvent event)throws IOException{
+        Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        File file = fileChooser.showOpenDialog(window);
+        String path = file.getAbsolutePath();
+    }
+
     void setRouter(final Router router) {
         this.router = router;
     }

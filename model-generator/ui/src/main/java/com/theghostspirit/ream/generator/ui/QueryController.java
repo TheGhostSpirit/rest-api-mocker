@@ -1,7 +1,6 @@
 package com.theghostspirit.ream.generator.ui;
 
 import com.theghostspirit.ream.generator.core.Api;
-import com.theghostspirit.ream.generator.core.Query;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -52,13 +51,13 @@ public class QueryController {
     }
 
     public void setTextData(){
-        if(this.api.getRoutes().get(indexOfRoute).getQuery().getFieldParameterList().isEmpty() == false){
+        if(this.api.getRoutes().get(indexOfRoute).getQuery().isEmpty() == false){
 
             HboxListObjectQuery.setVisible(true);
             ArrayList<String> listObjectView = new ArrayList<String>();
 
-            for(int i = 0 ; i < this.api.getRoutes().get(indexOfRoute).getQuery().getFieldParameterList().size() ; i++){
-                String AddObjectToList = this.api.getRoutes().get(indexOfRoute).getQuery().getFieldParameterList().get(i).getType() + "   :   " + this.api.getRoutes().get(indexOfRoute).getQuery().getFieldParameterList().get(i).getName();
+            for(int i = 0 ; i < this.api.getRoutes().get(indexOfRoute).getQuery().size() ; i++){
+                String AddObjectToList = this.api.getRoutes().get(indexOfRoute).getQuery().get(i).getType() + "   :   " + this.api.getRoutes().get(indexOfRoute).getQuery().get(i).getName();
                 listObjectView.add(AddObjectToList);
             }
 
@@ -110,7 +109,7 @@ public class QueryController {
 
         System.out.println("Selected INDEX : " + selectedIndex);
 
-        this.api.getRoutes().get(indexOfRoute).getQuery().getFieldParameterList().remove(selectedIndex);
+        this.api.getRoutes().get(indexOfRoute).getQuery().remove(selectedIndex);
 
         setTextData();
 

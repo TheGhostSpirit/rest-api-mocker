@@ -94,16 +94,16 @@ public class ResponseController {
 
             System.out.println("Description de la route verif dans le response :" + this.api.getRoutes().get(this.indexOfRoute).getDescription());
 
-            api.getRoutes().get(indexOfRoute).getResponses().add(response);
+            api.getRoutes().get(indexOfRoute).getResponse().add(response);
 
-            indexResponse = api.getRoutes().get(indexOfRoute).getResponses().indexOf(response);
+            indexResponse = api.getRoutes().get(indexOfRoute).getResponse().indexOf(response);
 
             loadResponse = true;
             AddObjectButton.setVisible(true);
         }else{
 
-            this.api.getRoutes().get(indexOfRoute).getResponses().get(indexResponse).setStatus(statusCode.getText());
-            this.api.getRoutes().get(indexOfRoute).getResponses().get(indexResponse).setDescription(descriptionResponse.getText());
+            this.api.getRoutes().get(indexOfRoute).getResponse().get(indexResponse).setStatus(statusCode.getText());
+            this.api.getRoutes().get(indexOfRoute).getResponse().get(indexResponse).setDescription(descriptionResponse.getText());
         }
 
 
@@ -112,20 +112,20 @@ public class ResponseController {
 
         loadResponse = true;
         AddObjectButton.setVisible(true);
-        statusCode.setText(this.api.getRoutes().get(this.indexOfRoute).getResponses().get(this.indexResponse).getStatus());
-        descriptionResponse.setText(this.api.getRoutes().get(this.indexOfRoute).getResponses().get(this.indexResponse).getDescription());
+        statusCode.setText(this.api.getRoutes().get(this.indexOfRoute).getResponse().get(this.indexResponse).getStatus());
+        descriptionResponse.setText(this.api.getRoutes().get(this.indexOfRoute).getResponse().get(this.indexResponse).getDescription());
 
         System.out.println("Edition d'une reponse :");
-        System.out.println("Taille du nombre d'object : " + this.api.getRoutes().get(indexOfRoute).getResponses().get(indexResponse).getFieldParameterList().size());
-        if(this.api.getRoutes().get(indexOfRoute).getResponses().get(indexResponse).getFieldParameterList().isEmpty() == false){
+        System.out.println("Taille du nombre d'object : " + this.api.getRoutes().get(indexOfRoute).getResponse().get(indexResponse).getBody().size());
+        if(this.api.getRoutes().get(indexOfRoute).getResponse().get(indexResponse).getBody().isEmpty() == false){
             System.out.println("Dans la condition");
 
 
             HboxListObjectResponse.setVisible(true);
             ArrayList<String> listObjectView = new ArrayList<String>();
 
-            for(int i = 0 ; i < this.api.getRoutes().get(indexOfRoute).getResponses().get(indexResponse).getFieldParameterList().size() ; i++){
-                String AddObjectToList = this.api.getRoutes().get(indexOfRoute).getResponses().get(indexResponse).getFieldParameterList().get(i).getType() + "   :   " + this.api.getRoutes().get(indexOfRoute).getResponses().get(indexResponse).getFieldParameterList().get(i).getName();
+            for(int i = 0 ; i < this.api.getRoutes().get(indexOfRoute).getResponse().get(indexResponse).getBody().size() ; i++){
+                String AddObjectToList = this.api.getRoutes().get(indexOfRoute).getResponse().get(indexResponse).getBody().get(i).getType() + "   :   " + this.api.getRoutes().get(indexOfRoute).getResponse().get(indexResponse).getBody().get(i).getName();
                 listObjectView.add(AddObjectToList);
             }
 
@@ -182,7 +182,7 @@ public class ResponseController {
 
         System.out.println("Selected INDEX : " + selectedIndex);
 
-        this.api.getRoutes().get(indexOfRoute).getResponses().get(indexResponse).getFieldParameterList().remove(selectedIndex);
+        this.api.getRoutes().get(indexOfRoute).getResponse().get(indexResponse).getBody().remove(selectedIndex);
 
         setTextData();
 

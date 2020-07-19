@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Response {
     private String status;
     private String description;
-    private ArrayList<FieldParameter> fieldParameterList = new ArrayList<FieldParameter>();
+    private ArrayList<FieldParameter> body = new ArrayList<FieldParameter>();
 
     public String getStatus() {
         return status;
@@ -23,12 +23,12 @@ public class Response {
         this.description = description;
     }
 
-    public ArrayList<FieldParameter> getFieldParameterList() {
-        return fieldParameterList;
+
+    public ArrayList<FieldParameter> getBody() {
+        return body;
     }
 
-    public void setFieldParameterList(ArrayList<FieldParameter> fieldParameterList) {
-        this.fieldParameterList = fieldParameterList;
+    public void setBody(ArrayList<FieldParameter> body) {
+        this.body = body;
     }
-
 }

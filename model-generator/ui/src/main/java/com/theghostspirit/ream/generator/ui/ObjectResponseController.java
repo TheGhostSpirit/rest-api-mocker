@@ -43,9 +43,9 @@ public class ObjectResponseController {
     }
 
     public void setTextData(){
-        nameObject.setText(this.api.getRoutes().get(indexOfRoute).getResponses().get(indexResponse).getFieldParameterList().get(indexObject).getName());
-        selectTypeObject.getSelectionModel().select(this.api.getRoutes().get(this.indexOfRoute).getResponses().get(indexResponse).getFieldParameterList().get(indexObject).getType());
-        if(this.api.getRoutes().get(this.indexOfRoute).getResponses().get(indexResponse).getFieldParameterList().get(indexObject).getRequired()){
+        nameObject.setText(this.api.getRoutes().get(indexOfRoute).getResponse().get(indexResponse).getBody().get(indexObject).getName());
+        selectTypeObject.getSelectionModel().select(this.api.getRoutes().get(this.indexOfRoute).getResponse().get(indexResponse).getBody().get(indexObject).getType());
+        if(this.api.getRoutes().get(this.indexOfRoute).getResponse().get(indexResponse).getBody().get(indexObject).getRequired()){
             requiredObject.setSelected(true);
         }
 
@@ -86,18 +86,18 @@ public class ObjectResponseController {
 
             System.out.println("Index of route " + indexOfRoute);
 
-            System.out.println("Size of query parameter list : " +  this.api.getRoutes().get(indexOfRoute).getResponses().get(indexResponse).getFieldParameterList().size());
+            System.out.println("Size of query parameter list : " +  this.api.getRoutes().get(indexOfRoute).getResponse().get(indexResponse).getBody().size());
 
-            this.api.getRoutes().get(indexOfRoute).getResponses().get(indexResponse).getFieldParameterList().add(newObject);
+            this.api.getRoutes().get(indexOfRoute).getResponse().get(indexResponse).getBody().add(newObject);
 
             this.loadObject = true;
         }else{
-            this.api.getRoutes().get(indexOfRoute).getResponses().get(indexResponse).getFieldParameterList().get(this.indexObject).setName(nameObject.getText());
-            this.api.getRoutes().get(indexOfRoute).getResponses().get(indexResponse).getFieldParameterList().get(this.indexObject).setType(selectTypeObject.getSelectionModel().getSelectedItem());
+            this.api.getRoutes().get(indexOfRoute).getResponse().get(indexResponse).getBody().get(this.indexObject).setName(nameObject.getText());
+            this.api.getRoutes().get(indexOfRoute).getResponse().get(indexResponse).getBody().get(this.indexObject).setType(selectTypeObject.getSelectionModel().getSelectedItem());
             if(requiredObject.isSelected()) {
-                this.api.getRoutes().get(indexOfRoute).getResponses().get(indexResponse).getFieldParameterList().get(this.indexObject).setRequired(true);
+                this.api.getRoutes().get(indexOfRoute).getResponse().get(indexResponse).getBody().get(this.indexObject).setRequired(true);
             }else{
-                this.api.getRoutes().get(indexOfRoute).getResponses().get(indexResponse).getFieldParameterList().get(this.indexObject).setRequired(false);
+                this.api.getRoutes().get(indexOfRoute).getResponse().get(indexResponse).getBody().get(this.indexObject).setRequired(false);
             }
         }
 
