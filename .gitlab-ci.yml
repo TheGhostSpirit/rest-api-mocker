@@ -1,0 +1,17 @@
+image: node:latest
+stages:
+  - build
+  - test
+cache:
+  paths:
+    - node_modules/
+job1:
+  stage: build
+  script:
+    - cd model-api
+    - npm install
+job2:
+  stage: test
+  script:
+    - cd model-api
+    - npm test
