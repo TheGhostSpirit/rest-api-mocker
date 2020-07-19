@@ -90,9 +90,14 @@
       <HBox prefHeight="25.0" prefWidth="600.0">
          <children>
             <Button mnemonicParsing="false" onAction="#loadPreviousScene" prefHeight="25.0" prefWidth="85.0" text="&lt;--" />
+            <Button mnemonicParsing="false" onAction="#callPluginFunction" prefHeight="25.0" prefWidth="94.0" text="Plugins">
+               <HBox.margin>
+                  <Insets left="300.0" />
+               </HBox.margin>
+            </Button>
             <Button mnemonicParsing="false" onAction="#exportThisApiYAML" prefHeight="25.0" prefWidth="116.0" text="Export YAML">
                <HBox.margin>
-                  <Insets left="350.0" />
+                  <Insets />
                </HBox.margin>
             </Button>
             <Button mnemonicParsing="false" onAction="#exportThisApiJSON" prefHeight="25.0" prefWidth="115.0" text="Export JSON">
