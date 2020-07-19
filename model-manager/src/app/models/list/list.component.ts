@@ -45,10 +45,6 @@ export class ModelListComponent implements OnInit {
       .subscribe(() => this.router.navigateByUrl(`/models/${model._id}/client`));
   }
 
-  edit(model: Model) {
-
-  }
-
   import() {
     this.dialog.open(ModelImportComponent)
       .afterClosed()
