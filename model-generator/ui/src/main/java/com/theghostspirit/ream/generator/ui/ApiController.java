@@ -19,6 +19,9 @@ import javafx.scene.layout.HBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -114,12 +117,16 @@ public class ApiController {
             showAlert(Alert.AlertType.ERROR, (Stage) ((Node)event.getSource()).getScene().getWindow(), "Form Error!", "Please enter a server address");
             return;
         }
+        if(contactName.getText().isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, (Stage) ((Node)event.getSource()).getScene().getWindow(), "Form Error!", "Please enter a name");
+            return;
+        }
         if(contactEmail.getText().isEmpty()) {
             showAlert(Alert.AlertType.ERROR,(Stage) ((Node)event.getSource()).getScene().getWindow(), "Form Error!", "Please enter your email");
             return;
         }
-        if(contactName.getText().isEmpty()) {
-            showAlert(Alert.AlertType.ERROR, (Stage) ((Node)event.getSource()).getScene().getWindow(), "Form Error!", "Please enter a name");
+        if(!isValidEmailAddress(contactEmail.getText())){
+            showAlert(Alert.AlertType.ERROR,(Stage) ((Node)event.getSource()).getScene().getWindow(), "Form Error!", "Please enter a valid email");
             return;
         }
         if(licenseUrl.getText().isEmpty()) {
@@ -212,5 +219,16 @@ public class ApiController {
         controlR.setIndexOfRoute(selectedIndex);
         window.setScene(apiScene);
         window.show();
+    }
+
+    private static boolean isValidEmailAddress(String email) {
+        boolean result = true;
+        try {
+            InternetAddress emailAddr = new InternetAddress(email);
+            emailAddr.validate();
+        } catch (AddressException ex) {
+            result = false;
+        }
+        return result;
     }
 }

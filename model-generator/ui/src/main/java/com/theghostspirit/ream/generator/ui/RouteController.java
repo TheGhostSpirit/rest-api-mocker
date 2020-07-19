@@ -69,6 +69,9 @@ public class RouteController {
     private Button AddResponseButton;
 
     @FXML
+    private Button AddBodyButton;
+
+    @FXML
     private HBox hboxBodyList;
 
     @FXML
@@ -83,6 +86,7 @@ public class RouteController {
         hboxBodyList.setVisible(false);
         AddQueryButton.setVisible(false);
         AddResponseButton.setVisible(false);
+        AddBodyButton.setVisible(false);
     }
 
     public void setTextData(Boolean loadRouteCheck){
@@ -90,6 +94,7 @@ public class RouteController {
         if(loadRouteCheck == true){
             AddQueryButton.setVisible(true);
             AddResponseButton.setVisible(true);
+            AddBodyButton.setVisible(true);
             routeUrl.setText(this.api.getRoutes().get(this.indexOfRoute).getPath());
             operationId.setText(this.api.getRoutes().get(this.indexOfRoute).getOperationId());
             routeDescription.setText(this.api.getRoutes().get(this.indexOfRoute).getDescription());
@@ -152,6 +157,7 @@ public class RouteController {
             this.loadRoute = true;
             AddQueryButton.setVisible(true);
             AddResponseButton.setVisible(true);
+            AddBodyButton.setVisible(true);
         }else{
             this.api.getRoutes().get(indexOfRoute).setPath(routeUrl.getText());
             this.api.getRoutes().get(indexOfRoute).setOperationId(operationId.getText());

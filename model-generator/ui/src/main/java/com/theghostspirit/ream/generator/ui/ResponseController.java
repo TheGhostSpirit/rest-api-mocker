@@ -76,6 +76,10 @@ public class ResponseController {
             showAlert(Alert.AlertType.ERROR, (Stage) ((Node)event.getSource()).getScene().getWindow(), "Form Error!", "Please enter a status code");
             return;
         }
+        if(checkStatusCode(statusCode.getText())){
+            showAlert(Alert.AlertType.ERROR, (Stage) ((Node)event.getSource()).getScene().getWindow(), "Form Error!", "Please enter a valid status code");
+            return;
+        }
         showAlert(Alert.AlertType.CONFIRMATION, (Stage) ((Node)event.getSource()).getScene().getWindow(), "Registration Successful!", "Vos informations ont bien été enregistré");
         if(loadResponse == false){
             response.setStatus(statusCode.getText());
@@ -167,5 +171,14 @@ public class ResponseController {
         controlR.setTextData();
         window.setScene(apiScene);
         window.show();
+    }
+
+    private boolean checkStatusCode(String check){
+        try {
+            Integer.parseInt(check);
+        } catch(NumberFormatException e) {
+            return true;
+        }
+        return false;
     }
 }
