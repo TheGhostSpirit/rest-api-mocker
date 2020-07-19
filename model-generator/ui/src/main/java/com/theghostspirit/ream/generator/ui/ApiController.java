@@ -85,7 +85,7 @@ public class ApiController {
         contactName.setText(this.api.getContact().getName());
         contactEmail.setText(this.api.getContact().getEmail());
         licenseUrl.setText(this.api.getLicense());
-
+        version.setText(this.api.getVersion());
         if(!this.api.getRoutes().isEmpty()){
             loadListOfRoutesSelect();
         }else{
@@ -221,8 +221,8 @@ public class ApiController {
         Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
         RouteController controlR = loader.getController();
         controlR.setApi(api);
-        controlR.setTextData(true);
         controlR.setIndexOfRoute(selectedIndex);
+        controlR.setTextData(true);
         window.setScene(apiScene);
         window.show();
     }

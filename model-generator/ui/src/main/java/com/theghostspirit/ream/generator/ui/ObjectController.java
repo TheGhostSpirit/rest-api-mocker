@@ -53,7 +53,7 @@ public class ObjectController {
 
     @FXML
     public void initialize() {
-        ObservableList<String> listOfType = FXCollections.observableArrayList("String","Int","Boolean","Float");
+        ObservableList<String> listOfType = FXCollections.observableArrayList("string","number","date");
         selectTypeObject.setItems(listOfType);
         selectTypeObject.getSelectionModel().selectFirst();
     }

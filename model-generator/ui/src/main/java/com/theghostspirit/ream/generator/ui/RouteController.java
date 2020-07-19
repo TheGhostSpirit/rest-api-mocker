@@ -79,7 +79,7 @@ public class RouteController {
 
     @FXML
     public void initialize() {
-        ObservableList<String>listOfMethod = FXCollections.observableArrayList("GET","POST","PUT","PATCH","DELETE");
+        ObservableList<String>listOfMethod = FXCollections.observableArrayList("get","post","put","patch","delete");
         methodList.setItems(listOfMethod);
         methodList.getSelectionModel().selectFirst();
         hboxResponseList.setVisible(false);
