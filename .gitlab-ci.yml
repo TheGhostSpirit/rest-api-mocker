@@ -4,7 +4,7 @@ stages:
   - test
 cache:
   paths:
-    - node_modules/
+    - model-api/node_modules/
 job1:
   stage: build
   script:
@@ -12,7 +12,7 @@ job1:
     - npm install
   artifacts:
     paths:
-      - node_modules/
+      - model-api/node_modules/
 job2:
   stage: test
   script:
