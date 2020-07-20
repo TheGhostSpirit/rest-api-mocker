@@ -29,11 +29,11 @@ public class QueryController {
         return api;
     }
 
-    public int getIndexOfRoute() {
+    private int getIndexOfRoute() {
         return indexOfRoute;
     }
 
-    public void setIndexOfRoute(int indexOfRoute) {
+    void setIndexOfRoute(int indexOfRoute) {
         this.indexOfRoute = indexOfRoute;
     }
 
@@ -48,10 +48,10 @@ public class QueryController {
         HboxListObjectQuery.setVisible(false);
     }
 
-    public void setTextData(){
-        if(this.api.getRoutes().get(indexOfRoute).getQuery().isEmpty() == false){
+    void setTextData(){
+        if(!this.api.getRoutes().get(indexOfRoute).getQuery().isEmpty()){
             HboxListObjectQuery.setVisible(true);
-            ArrayList<String> listObjectView = new ArrayList<String>();
+            ArrayList<String> listObjectView = new ArrayList<>();
             for(int i = 0 ; i < this.api.getRoutes().get(indexOfRoute).getQuery().size() ; i++){
                 String AddObjectToList = this.api.getRoutes().get(indexOfRoute).getQuery().get(i).getType() + "   :   " + this.api.getRoutes().get(indexOfRoute).getQuery().get(i).getName();
                 listObjectView.add(AddObjectToList);
@@ -67,7 +67,7 @@ public class QueryController {
     @FXML
     void loadObjectScene(ActionEvent event)throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ObjectView.fxml"));
-        Parent ObjectView = (Parent) loader.load();
+        Parent ObjectView = loader.load();
         Scene ObjectScene = new Scene(ObjectView);
         Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
         ObjectController controlR = loader.getController();
@@ -80,7 +80,7 @@ public class QueryController {
     @FXML
     void loadPreviousScene (ActionEvent event)throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/RouteView.fxml"));
-        Parent routeView = (Parent) loader.load();
+        Parent routeView = loader.load();
         Scene routeScene = new Scene(routeView);
         Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
         RouteController controlR = loader.getController();
@@ -92,7 +92,7 @@ public class QueryController {
     }
 
     @FXML
-    void deleteObject (ActionEvent event)throws IOException {
+    void deleteObject (ActionEvent event){
         int selectedIndex = listObjectCombo.getSelectionModel().getSelectedIndex();
         this.api.getRoutes().get(indexOfRoute).getQuery().remove(selectedIndex);
         setTextData();
@@ -102,7 +102,7 @@ public class QueryController {
     void editObject (ActionEvent event)throws IOException {
         int selectedIndex = listObjectCombo.getSelectionModel().getSelectedIndex();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ObjectView.fxml"));
-        Parent apiView = (Parent) loader.load();
+        Parent apiView = loader.load();
         Scene apiScene = new Scene(apiView);
         Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
         ObjectController controlR = loader.getController();

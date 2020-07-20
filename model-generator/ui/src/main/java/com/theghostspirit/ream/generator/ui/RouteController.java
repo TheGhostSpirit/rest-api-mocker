@@ -33,11 +33,11 @@ public class RouteController {
         return this.api;
     }
 
-    public int getIndexOfRoute() {
+    private int getIndexOfRoute() {
         return indexOfRoute;
     }
 
-    public void setIndexOfRoute(int indexOfRoute) {
+    void setIndexOfRoute(int indexOfRoute) {
         this.indexOfRoute = indexOfRoute;
     }
 
@@ -79,7 +79,7 @@ public class RouteController {
 
     @FXML
     public void initialize() {
-        ObservableList<String>listOfMethod = FXCollections.observableArrayList("GET","POST","PUT","PATCH","DELETE");
+        ObservableList<String>listOfMethod = FXCollections.observableArrayList("get","post","put","patch","delete");
         methodList.setItems(listOfMethod);
         methodList.getSelectionModel().selectFirst();
         hboxResponseList.setVisible(false);
@@ -89,9 +89,9 @@ public class RouteController {
         AddBodyButton.setVisible(false);
     }
 
-    public void setTextData(Boolean loadRouteCheck){
+    void setTextData(Boolean loadRouteCheck){
         apiPath.setText(this.api.getServerPath() + " : ");
-        if(loadRouteCheck == true){
+        if(loadRouteCheck){
             AddQueryButton.setVisible(true);
             AddResponseButton.setVisible(true);
             AddBodyButton.setVisible(true);
@@ -99,12 +99,12 @@ public class RouteController {
             operationId.setText(this.api.getRoutes().get(this.indexOfRoute).getOperationId());
             routeDescription.setText(this.api.getRoutes().get(this.indexOfRoute).getDescription());
             methodList.getSelectionModel().select(this.api.getRoutes().get(this.indexOfRoute).getMethod());
-            if(this.api.getRoutes().get(indexOfRoute).getResponse().isEmpty() == false){
+            if(!this.api.getRoutes().get(indexOfRoute).getResponse().isEmpty()){
                 loadListOfResponsesSelect();
             }else{
                 hboxResponseList.setVisible(false);
             }
-            if(this.api.getRoutes().get(indexOfRoute).getBody().isEmpty() == false){
+            if(!this.api.getRoutes().get(indexOfRoute).getBody().isEmpty()){
                 loadListOfBodySelect();
             }else{
                 hboxBodyList.setVisible(false);
@@ -113,9 +113,9 @@ public class RouteController {
         }
     }
 
-    public void loadListOfResponsesSelect(){
+    private void loadListOfResponsesSelect(){
         hboxResponseList.setVisible(true);
-        ArrayList<String> listResponseView = new ArrayList<String>();
+        ArrayList<String> listResponseView = new ArrayList<>();
         for(int i = 0 ; i < this.api.getRoutes().get(indexOfRoute).getResponse().size() ; i++){
             String AddResponseToList = this.api.getRoutes().get(indexOfRoute).getResponse().get(i).getStatus() + "   :   " + this.api.getRoutes().get(indexOfRoute).getResponse().get(i).getDescription();
             listResponseView.add(AddResponseToList);
@@ -125,9 +125,9 @@ public class RouteController {
         responsesRouteList.getSelectionModel().selectFirst();
     }
 
-    public void loadListOfBodySelect(){
+    private void loadListOfBodySelect(){
         hboxBodyList.setVisible(true);
-        ArrayList<String> listBodyView = new ArrayList<String>();
+        ArrayList<String> listBodyView = new ArrayList<>();
 
         for(int i = 0 ; i < this.api.getRoutes().get(indexOfRoute).getBody().size() ; i++){
             String AddBodyToList = this.api.getRoutes().get(indexOfRoute).getBody().get(i).getType() + "   :   " + this.api.getRoutes().get(indexOfRoute).getBody().get(i).getName();
@@ -143,11 +143,11 @@ public class RouteController {
     @FXML
     void AddRoute(ActionEvent event){
         if(routeUrl.getText().isEmpty()) {
-            showAlert(Alert.AlertType.ERROR, (Stage) ((Node)event.getSource()).getScene().getWindow(), "Form Error!", "Please enter a route path");
+            showAlert(Alert.AlertType.ERROR,((Node)event.getSource()).getScene().getWindow(), "Form Error!", "Please enter a route path");
             return;
         }
-        showAlert(Alert.AlertType.CONFIRMATION, (Stage) ((Node)event.getSource()).getScene().getWindow(), "Successful!", "Vos informations ont bien été enregistré");
-        if(loadRoute == false){
+        showAlert(Alert.AlertType.CONFIRMATION,((Node)event.getSource()).getScene().getWindow(), "Successful!", "Vos informations ont bien été enregistré");
+        if(!loadRoute){
             newRoute.setPath(routeUrl.getText());
             newRoute.setOperationId(operationId.getText());
             newRoute.setDescription(routeDescription.getText());
@@ -179,7 +179,7 @@ public class RouteController {
     @FXML
     void loadQueryView(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/QueryView.fxml"));
-        Parent apiView = (Parent) loader.load();
+        Parent apiView = loader.load();
         Scene apiScene = new Scene(apiView);
         Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
         QueryController controlR = loader.getController();
@@ -193,7 +193,7 @@ public class RouteController {
     @FXML
     void loadResponseView(ActionEvent event)throws IOException{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ResponseView.fxml"));
-        Parent apiView = (Parent) loader.load();
+        Parent apiView = loader.load();
         Scene apiScene = new Scene(apiView);
         Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
         ResponseController controlR = loader.getController();
@@ -206,7 +206,7 @@ public class RouteController {
     @FXML
     void loadBodyView(ActionEvent event)throws IOException{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ObjectBodyView.fxml"));
-        Parent bodyView = (Parent) loader.load();
+        Parent bodyView = loader.load();
         Scene bodyScene = new Scene(bodyView);
         Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
         ObjectBodyController controlR = loader.getController();
@@ -219,7 +219,7 @@ public class RouteController {
     @FXML
     void loadPreviousView(ActionEvent event)throws IOException{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ApiView.fxml"));
-        Parent apiView = (Parent) loader.load();
+        Parent apiView = loader.load();
         Scene apiScene = new Scene(apiView);
         Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
         ApiController controlR = loader.getController();
@@ -234,7 +234,7 @@ public class RouteController {
     void editResponse(ActionEvent event)throws IOException{
         int selectedIndexResponse = responsesRouteList.getSelectionModel().getSelectedIndex();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ResponseView.fxml"));
-        Parent responseView = (Parent) loader.load();
+        Parent responseView = loader.load();
         Scene responseScene = new Scene(responseView);
         Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
         ResponseController controlR = loader.getController();
@@ -247,14 +247,14 @@ public class RouteController {
     }
 
     @FXML
-    void deleteResponse(ActionEvent event)throws IOException{
+    void deleteResponse(ActionEvent event){
         int selectedIndex = responsesRouteList.getSelectionModel().getSelectedIndex();
         this.api.getRoutes().get(indexOfRoute).getResponse().remove(selectedIndex);
         setTextData(true);
     }
 
     @FXML
-    void deleteBody(ActionEvent event)throws IOException{
+    void deleteBody(ActionEvent event){
         int selectedIndex = responsesBodyList.getSelectionModel().getSelectedIndex();
         this.api.getRoutes().get(indexOfRoute).getBody().remove(selectedIndex);
         setTextData(true);
@@ -264,7 +264,7 @@ public class RouteController {
     void editBody(ActionEvent event)throws IOException{
         int selectedIndexResponse = responsesBodyList.getSelectionModel().getSelectedIndex();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ObjectBodyView.fxml"));
-        Parent objectView = (Parent) loader.load();
+        Parent objectView = loader.load();
         Scene objectScene = new Scene(objectView);
         Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
         ObjectBodyController controlR = loader.getController();
