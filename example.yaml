@@ -1,0 +1,64 @@
+version: 0.1 # la version du schéma yaml
+api: 
+  name: some-model
+  description: this is a description...
+  contact:
+    name: jean
+    email: jean@gmail.com
+  license: MIT
+  version: 2 # la version du modèle d'API
+  routes:
+    - path: /comments # GET /comments?page=3
+      method: GET
+      query:
+        - name: page
+          type: number
+          required: false
+      response:
+        - status: 200
+          body:
+            - name: id
+              type: number
+              required: true
+            - name: author
+              type: string
+              required: true
+            - name: content
+              type: string
+              required: true
+    - path: /comment # POST /comment
+      method: POST
+        body:
+          - name: author
+            type: string
+            required: true
+          - name: content
+            type: string
+            required: true
+        response:
+          - status: 201
+            body:
+              - name: id
+                type: number
+          - status: 400
+            body:
+              - name: error
+                type: string
+              - name: message
+                type: string
+    - path: 'comment/:id' # DELETE /comment/12
+      method: DELETE
+        params:
+          - name: id
+            type: number
+        response:
+          - status: 200
+            body:
+              - name: deleted
+                type: number
+          - status: 404
+            body:
+              - name: error
+                type: string
+              - name: message
+                type: string

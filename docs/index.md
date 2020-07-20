@@ -2,28 +2,13 @@
 
 ## Index
 
-* [__Installation__]('./installation.md')
+Welcome in RestAPI Mocker ! Thanks for install.
 
-* __Components__
+Follow this step to start using RestAPI Mocker.
 
-1. Model Generator
+1. [__Installation__](installation.md)
 
-    - [User](./model-generator/user.md)
+2. User Documentations
 
-    - Technical
-
-    - Extension
-
-2. Model Manager
-
-    - User
-
-    - Technical
-
-3. Model API
-
-    - Technical
-
-4. Model Generator
-
-    - Technical
+    * [Model Generator](./user-docs/model-generator.md)
+    * [Model Manager](./user-docs/model-manager.md)

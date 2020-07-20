@@ -2,6 +2,6 @@
 
 ## Using docker-compose
 
-## Using production Dockerfiles and a Function as a Service (FaaS) Provider
+Open a terminal and run:
 
-
+    sudo docker-compose up
