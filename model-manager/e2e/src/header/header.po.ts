@@ -1,4 +1,5 @@
 import { browser, by, element } from 'protractor';
+import { CONF } from '../conf';
 
 export class Header {
   navigateTo() {
@@ -9,15 +10,15 @@ export class Header {
     this.getHeaderSignIn().click();
 
     var emailInput = browser.driver.findElement(by.id('i0116'));
-    emailInput.sendKeys('baba@quentincariteyoutlook.onmicrosoft.com');
-    browser.driver.findElement(by.id('idSIButton9')).click();
+    emailInput.sendKeys(CONF.email);
+    browser.driver.findElement(by.id(CONF.nextButtonId)).click();
     browser.driver.sleep(1000);
 
     var passwordInput = browser.driver.findElement(by.id('i0118'));
-    passwordInput.sendKeys('sucePUTE1/');
-    browser.driver.findElement(by.id('idSIButton9')).click();
+    passwordInput.sendKeys(CONF.password);
+    browser.driver.findElement(by.id(CONF.nextButtonId)).click();
     browser.driver.sleep(1000);
-    browser.driver.findElement(by.id('idSIButton9')).click();
+    browser.driver.findElement(by.id(CONF.nextButtonId)).click();
     browser.driver.sleep(1000);
   }
 
