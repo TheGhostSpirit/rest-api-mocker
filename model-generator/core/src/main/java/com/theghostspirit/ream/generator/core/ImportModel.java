@@ -13,7 +13,6 @@ public class ImportModel {
 
         String content = "";
         ApiWrapper apiWrapper = new ApiWrapper();
-
         String extension = checkExtension(path);
 
         if(extension.equals("yaml") || extension.equals("json")) {
